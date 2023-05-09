@@ -11,4 +11,12 @@ mainRouter.get('/login', function (req, res) {
   res.sendFile(path.join(__dirname, 'views', 'login.html'))
 })
 
+mainRouter.get('/studentdashboard', function(req,res){
+  res.sendFile(path.join(__dirname,'views','studentdashboard.html'))
+})
+
 module.exports = mainRouter
+
+mainRouter.post('/api/studentdashboard', function (req, res) {
+  res.redirect(req.baseUrl + '/studentdashboard')
+  })
