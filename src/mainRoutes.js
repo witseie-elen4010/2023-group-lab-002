@@ -10,6 +10,9 @@ mainRouter.get('/', function (req, res) {
 mainRouter.get('/login', function (req, res) {
   res.sendFile(path.join(__dirname, 'views', 'login.html'))
 })
+mainRouter.get('/lecturerDashboard', function (req, res) {
+  res.sendFile(path.join(__dirname, 'views', 'lecturerDashboard.html'))
+})
 
 mainRouter.get('/studentdashboard', function(req,res){
   res.sendFile(path.join(__dirname,'views','studentdashboard.html'))
