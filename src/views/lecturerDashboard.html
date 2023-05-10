@@ -1,21 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/cdn/css/calendar.css">
+    <script defer src="/cdn/scripts/calendar.js"></script>
     <title>Lecturer Dashboard</title>
 </head>
+
 <body>
     <h1>CONSULTATION</h1>
     <p>
-    Welcome to your Lecturer Dashboard
+        Welcome to your Lecturer Dashboard
     <div>
-        - View Calendar    
+        - View Calendar
     </div>
     <div>
         - Handle scheduling
     </div>
+
+    <div class="container">
+        <h1 class="text-center">Calendar</h1>
+        <div class="calendar-container">
+            <div class="calendar-header">
+                <button class="btn btn-primary" onclick="changeMonth(-1)">Previous Month</button>
+                <h3 id="month-year" class="text-center"></h3>
+                <button class="btn btn-primary" onclick="changeMonth(1)">Next Month</button>
+            </div>
+            <table class="table">
+                <tbody id="calendar"></tbody>
+            </table>
+        </div>
+    </div>
     </p>
 </body>
+
 </html>
