@@ -1,0 +1,16 @@
+.calendar-container {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.current-day {
+    background-color: #007bff;
+    color: #fff;
+}
