@@ -16,7 +16,8 @@ const User = mongoose.model('User', userSchema)
 dbAPI.post('/login', async function (req, res) {
     const user = await User.findOne({username: req.body.username})
     if (!user){
-        res.status(401).send('Username or password is incorrect')
+        req.session.errorLogin = true
+        res.redirect('/login')
     }
     else if (bcrypt.compareSync(req.body.password, user.password)) {
         req.session.user = user
@@ -28,8 +29,13 @@ dbAPI.post('/login', async function (req, res) {
         }
     }
     else {
-        res.status(401).send('Username or password is incorrect')
+        req.session.errorLogin = true
+        res.redirect('/login')
     }
+})
+
+dbAPI.get('/incorrectLogin', function (req, res) {
+    res.send(req.session.errorLogin)
 })
 
 module.exports = dbAPI
