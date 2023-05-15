@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Login Page</title>
     <meta charset="utf-8" />
     <script defer src="/cdn/scripts/login.js"></script>
     <link rel="stylesheet" href="/cdn/css/login.css" />
 </head>
+
 <body>
     <form action="db/login" method="post">
         <div>
@@ -15,9 +17,12 @@
         <div>
             <label for="password">Password: </label>
             <input type="password" id="password" name="password">
-        <div class="button" id="login_button_div">
-            <button type="submit">Login</button>
-        </div>
+            <div class="button" id="login_button_div">
+                <button type="submit">Login</button>
+            </div>
     </form>
+    <div class="button" id="signup_button_div">
+        <a href="/signup">Sign Up</a>
 </body>
+
 </html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+    <script src="cdn/scripts/signup.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+
+<body>
+    <h1 class="container text-center">Sign Up</h1>
+    <form action="db/signup" method="post" class="container text-center">
+        <div class="name">
+            <label for="name">Name and Surname: </label>
+            <input type="text" id="name" name="name" placeholder="Name and Surname">
+        </div>
+        <div class="email">
+            <label for="email">Email: </label>
+            <input type="text" id="email" name="email" placeholder="Email">
+        </div>
+        <div class="username">
+            <label for="username">Username: </label>
+            <input type="text" id="username" name="username" placeholder="Username">
+        </div>
+        <div class="password">
+            <label for="password">Password: </label>
+            <input type="password" id="password" name="password" placeholder="Password">
+        </div>
+        <div class="radio_selection">
+            <input type="radio" id="studentSelection" name="position" value="Lecturer">
+            <label for="studentSelection">Student</label>
+            <input type="radio" id="lecturerSelection" name="position" value="Student">
+            <label for="lecturerSelection">Lecturer</label>
+        </div>
+        <button class="btn btn-primary" type="submit">Sign Up!</button>
+    </form>
+</body>
+
+</html>
