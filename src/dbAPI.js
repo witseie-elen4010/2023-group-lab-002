@@ -9,7 +9,9 @@ mongoose.connect("mongodb+srv://consultation:Em73gnZ6CfElljU1@consultation-web.m
 const userSchema = mongoose.Schema({
     username: String,
     password: String,
-    type: String
+    type: String,
+    name: String,
+    email: String
 })
 const User = mongoose.model('User', userSchema)
 
@@ -36,6 +38,34 @@ dbAPI.post('/login', async function (req, res) {
 
 dbAPI.get('/incorrectLogin', function (req, res) {
     res.send(req.session.errorLogin)
+})
+
+dbAPI.get('/checkUsername/:username', async function(req, res){
+    const user = await User.findOne({username: req.params.username})
+    if (user){
+        res.send('true')
+    }
+    else{
+        res.send('false')       
+    }
+})
+
+dbAPI.get('/checkEmail/:email', async function(req, res){
+    const user = await User.findOne({email: req.params.email})
+    if (user){
+        res.send('true')
+    }
+    else{
+        res.send('false')
+    }
+})
+
+dbAPI.post('/signup', async function (req, res) {
+    const hashPassword = await bcrypt.hash(req.body.password,12)
+    const newUser = new User({ name: req.body.name, username: req.body.username, email: req.body.email, password: hashPassword, type: req.body.position})
+    await newUser.save()
+    req.session.user = newUser
+    res.redirect('/dashboard')
 })
 
 module.exports = dbAPI

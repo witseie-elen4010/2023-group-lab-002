@@ -58,3 +58,15 @@ input[type=password]:focus {
     color: black;
     opacity: 0.3;
 }
+
+.username_error {
+    color: red;
+}
+
+.email_error {
+    color: red;
+}
+
+.password_error{
+    color: red;
+}
