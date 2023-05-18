@@ -64,4 +64,62 @@ describe('Login Route Tests', () => {
     expect(response.header['set-cookie']).toBeTruthy();
 
   });
+
+})
+
+describe('Signup Route Tests', () => {
+  let app;
+
+  beforeAll(() => {
+    app = express();
+    app.use(express.urlencoded({ extended: true }));
+    app.use(express.json());
+    app.use(session({ secret: 'test-secret', resave: false, saveUninitialized: false }));
+    app.use('/', dbAPI);
+  });
+
+  test('GET /signup - Check if username is available', async () => {
+    const response = await request(app).get('/checkUsername/Alli');
+    expect(response.status).toBe(200);
+    expect(response.text).toBe('true');
+          
+  });
+
+  test('GET /signup - Check if username is available', async () => {
+    // Assuming the username "nonExistingUser" does not exist in the database
+    const response = await request(app).get('/checkUsername/nonExistingUser');
+    expect(response.status).toBe(200);
+    expect(response.text).toBe('false');
+  });
+
+  test('GET /signup - Check is email is available', async () => {
+    const response = await request(app).get('/checkEmail/pj.kala97@gmail.com');
+    expect(response.status).toBe(200);
+    expect(response.text).toBe('true');
+  });
+
+  it('GET /signup - Check is email is available', async () => {
+    // Assuming the email "nonexisting@example.com" does not exist in the database
+    const response = await request(app).get('/checkEmail/nonexisting@example.com');
+    expect(response.status).toBe(200);
+    expect(response.text).toBe('false');
+  });
+
+  test('POST /signup - Check if a new user is added to database', async () => {
+
+    // Perform the signup request
+    const response = await request(app)
+      .post('/signup')
+      .send({ name: 'New User', username: 'NewUser', password: 'abcd1234', email: 'newuser@testexample.com', position: 'student' })
+
+    // Assert the response
+    expect(response.status).toBe(302); // Redirect status code
+    expect(response.headers.location).toBe('/dashboard');
+
+    const response1 = await request (app)
+      .post('/delete')
+      .send({username: 'NewUser'})
+  });
+
+
 })

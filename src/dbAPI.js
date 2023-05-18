@@ -68,4 +68,10 @@ dbAPI.post('/signup', async function (req, res) {
     res.redirect('/dashboard')
 })
 
+//Use later for deleting existing accounts
+dbAPI.post('/delete', async function(req, res){
+    await User.deleteOne({username: req.body.username})
+    res.redirect('/login')
+})
+
 module.exports = dbAPI

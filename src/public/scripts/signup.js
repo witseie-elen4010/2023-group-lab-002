@@ -148,6 +148,7 @@ document.querySelector('#password').addEventListener('blur', function(){
     if(password.value.length <8 && password.value.length>0){
         const p = document.createElement('p')
         p.classList.add('password_error')
+        p.id= 'error';
         const text = document.createTextNode('Password too short')
         p.appendChild(text)
         passwordDiv.appendChild(p)
