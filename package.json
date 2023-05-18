@@ -16,7 +16,9 @@
   },
   "devDependencies": {
     "coveralls": "3.1.1",
+    "fetch-mock": "9.11.0",
     "jest": "^29.5.0",
+    "jsdom": "22.0.0",
     "supertest": "6.3.3"
   }
 }
