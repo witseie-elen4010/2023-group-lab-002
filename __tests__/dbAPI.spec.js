@@ -127,8 +127,7 @@ describe('Signup Route Tests', () => {
 
     const response = await agent.get('/incorrectLogin')
     expect(response.text).toBe('true')
-  })
-})
+    
     await request(app)
       .post('/delete')
       .send({ username: 'NewUser' })
@@ -137,7 +136,7 @@ describe('Signup Route Tests', () => {
 
 describe('Set Availabiltiy Tests', () => {
   let app
-
+  
   beforeAll(() => {
     app = express()
     app.use(express.urlencoded({ extended: true }))
