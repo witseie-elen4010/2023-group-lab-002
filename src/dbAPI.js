@@ -14,7 +14,8 @@ const userSchema = mongoose.Schema({
   email: String,
   day: [Number],
   time: [String],
-  duration: [Number]
+  duration: [Number],
+  groupSize: [Number]
 })
 const User = mongoose.model('User', userSchema)
 
@@ -78,6 +79,7 @@ dbAPI.post('/setAvailability', async function (req, res) {
   lecturer.day.push(req.body.day)
   lecturer.time.push(req.body.time)
   lecturer.duration.push(req.body.duration)
+  lecturer.groupSize.push(req.body.groupSize)
   await lecturer.save()
   res.redirect('/lecturerDashboard')
 })
