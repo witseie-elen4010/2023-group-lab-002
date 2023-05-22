@@ -131,7 +131,7 @@ describe('Set Availabiltiy Tests', () => {
 
     const response1 = await agent
       .post('/setAvailability')
-      .send({ day: 1, time: '11:30', duration: 90 })
+      .send({ day: 1, time: '11:30', duration: 90, groupSize: 5 })
     expect(response1.status).toBe(302)
     expect(response1.headers.location).toBe('/lecturerDashboard')
 
