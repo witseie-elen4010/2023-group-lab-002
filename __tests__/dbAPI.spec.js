@@ -26,7 +26,7 @@ describe('Login Route Tests', () => {
     app.use('/', dbAPI);
   });
 
-  test('POST /login - Correct credentials, redirect to lecturerDashboard', async () => {
+  test('POST /login - Correct credentials, redirect to studentDashboard', async () => {
 
     // Perform the login request
     const response = await request(app)
@@ -36,6 +36,18 @@ describe('Login Route Tests', () => {
     // Assert the response
     expect(response.status).toBe(302); // Redirect status code
     expect(response.headers.location).toBe('/studentdashboard');
+  });
+
+  test('POST /login - Correct credentials, redirect to studentDashboard', async () => {
+
+    // Perform the login request
+    const response = await request(app)
+      .post('/login')
+      .send({ username: 'Pkala', password: '12345678' })
+
+    // Assert the response
+    expect(response.status).toBe(302); // Redirect status code
+    expect(response.headers.location).toBe('/lecturerDashboard');
   });
 
   test('POST /login - Incorrect username, redirect to login with error', async () => {
@@ -64,4 +76,14 @@ describe('Login Route Tests', () => {
     expect(response.header['set-cookie']).toBeTruthy();
 
   });
+
+  test('Get /incorrectLogin - Check if errorLogin is set', async () => {
+    const agent = request.agent(app);
+    await agent
+      .post('/login')
+      .send({username: 'Alli', password: 'osiufhg'})
+
+    const response = await agent.get('/incorrectLogin')
+    expect(response.text).toBe('true')
+  })
 })
