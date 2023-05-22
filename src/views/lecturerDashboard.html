@@ -15,6 +15,7 @@
     <h1>CONSULTATION</h1>
     <p>
         Welcome to your Lecturer Dashboard
+    </p>
     <div>
         - View Calendar
     </div>
@@ -34,8 +35,30 @@
                 <tbody id="calendar"></tbody>
             </table>
         </div>
+        <div class="scheduleContainer">
+            <form action="db/setAvailability" method="post">
+                <h2>Set available times</h2>
+                <div class="selectDate">
+                    <select class="form-select" id="daysDropdown" name="day" required>
+                        <option disabled selected value=""> Choose a day of the week</option>
+                        <option value="1">Monday</option>
+                        <option value="2">Tuesday</option>
+                        <option value="3">Wednesday</option>
+                        <option value="4">Thursday</option>
+                        <option value="5">Friday</option>
+                    </select>
+                    <br>
+                    <label for="time">Select start time</label>
+                    <input type="time" id="time" name="time" required>
+                    </br>
+                    <input type="number" id="duration" placeholder="Enter duration in minutes" name="duration" required>
+                </div>
+                <div>
+                    <button id="submitSchedule" class="btn btn-primary" type="submit">Set availability</button>
+                </div>
+            </form>
+        </div>
     </div>
-    </p>
 </body>
 
 </html>
