@@ -12,15 +12,15 @@ mainRouter.get('/login', function (req, res) {
 })
 
 mainRouter.get('/dashboard', function (req, res) {
-  if (req.session.user.type === 'student'){
+  if (req.session.user.type === 'student') {
     res.sendFile(path.join(__dirname, 'views', 'studentdashboard.html'))
   }
-  else if (req.session.user.type === 'lecturer'){
+  else if (req.session.user.type === 'lecturer') {
     res.sendFile(path.join(__dirname, 'views', 'lecturerDashboard.html'))
   }
   else {
     res.redirect('/login')
-  } 
+  }
 })
 
 mainRouter.get('/lecturerDashboard', function (req, res) {
@@ -42,8 +42,8 @@ mainRouter.get('/studentdashboard', function (req, res) {
   }
 })
 
-module.exports = mainRouter
-
-mainRouter.post('/api/studentdashboard', function (req, res) {
-  res.redirect(req.baseUrl + '/studentdashboard')
+mainRouter.get('/signup', function (req, res) {
+  res.sendFile(path.join(__dirname, 'views', 'signup.html'))
 })
+
+module.exports = mainRouter

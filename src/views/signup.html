@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+    <script defer src="../cdn/scripts/signup.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/cdn/css/signup.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Sign Up</h1>
+        <form action="db/signup" method="post" id="signup_form">
+            <div class="name">
+                <label for="name" class="text_label">Name and Surname: </label>
+                <input type="text" id="name" name="name" placeholder="Name and Surname" required>
+            </div>
+            <div class="email">
+                <label for="email" class="text_label">Email: </label>
+                <input type="text" id="email" name="email" placeholder="Email" required>
+            </div>
+            <div class="username">
+                <label for="username" class="text_label">Username: </label>
+                <input type="text" id="username" name="username" placeholder="Username" required>
+            </div>
+            <div class="password">
+                <label for="password" class="text_label">Password: </label>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+                <input type="checkbox" name="show_password" id="show_password">
+                <label for="show_password">Show Password</label>
+                <p id="help_text">Password must be 8 characters long</p>
+            </div>
+            <div class="radio_selection">
+                <input type="radio" id="studentSelection" name="position" value="student" required>
+                <label for="studentSelection">Student</label>
+                <input type="radio" id="lecturerSelection" name="position" value="lecturer" required>
+                <label for="lecturerSelection">Lecturer</label>
+            </div>
+            <button class="btn btn-primary" type="submit" id="signup_button">Sign Up!</button>
+        </form>
+    </div>
+</body>
+
+</html>

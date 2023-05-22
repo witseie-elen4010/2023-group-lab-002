@@ -8,6 +8,7 @@
     <script defer src="/cdn/scripts/calendar.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="/cdn/css/calendar.css">
+    <script defer src="/cdn/scripts/studentdashboard.js"></script>
     <title>Student Dashboard</title>
 </head>
 
@@ -15,12 +16,6 @@
     <h1>CONSULTATION</h1>
     <p>
         Welcome to your student Dashboard
-    <div>
-        - View Calendar
-    </div>
-    <div>
-        - Schedule a new consultation
-    </div>
 
     <div class="container">
         <h1 class="text-center">Calendar</h1>
@@ -36,6 +31,26 @@
         </div>
     </div>
     </p>
+    <form method=" post">
+        <div class="container" id="scheduleDiv">
+            <h2>Schedule a meeting</h2>
+            <div class = "dropdown">
+            <select class="form-select" id="lecturerDropdown">
+                <option selected> Choose Lecturer</option>
+                <option value="1"> Dr Stephan Levit</option>
+                <option value="2"> Prof Estelle Trengove</option>
+                <option value="3"> Mrs Liz Manning</option>
+            </select>
+            </div>
+            <div class="selectDate" >
+                <input type = "datetime-local">
+            </div>
+
+        </div>
+        <div class="btn btn-primary">
+            <button id="submitSchedule" class="btn btn-primary">Join meeting</button>
+        </div>
+    </form> 
 </body>
 
 </html>
