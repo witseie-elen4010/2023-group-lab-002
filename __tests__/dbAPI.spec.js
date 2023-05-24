@@ -35,16 +35,15 @@ describe('Login Route Tests', () => {
   })
 
   test('POST /login - Correct credentials, redirect to studentDashboard', async () => {
-
     // Perform the login request
     const response = await request(app)
       .post('/login')
       .send({ username: 'Pkala', password: '12345678' })
 
     // Assert the response
-    expect(response.status).toBe(302); // Redirect status code
-    expect(response.headers.location).toBe('/lecturerDashboard');
-  });
+    expect(response.status).toBe(302) // Redirect status code
+    expect(response.headers.location).toBe('/lecturerDashboard')
+  })
 
   test('POST /login - Incorrect username, redirect to login with error', async () => {
     // Perform the login request with incorrect username
@@ -117,17 +116,17 @@ describe('Signup Route Tests', () => {
     // Assert the response
     expect(response.status).toBe(302) // Redirect status code
     expect(response.headers.location).toBe('/dashboard')
-  });
+  })
 
   test('Get /incorrectLogin - Check if errorLogin is set', async () => {
-    const agent = request.agent(app);
+    const agent = request.agent(app)
     await agent
       .post('/login')
-      .send({username: 'Alli', password: 'osiufhg'})
+      .send({ username: 'Alli', password: 'osiufhg' })
 
     const response = await agent.get('/incorrectLogin')
     expect(response.text).toBe('true')
-    
+
     await request(app)
       .post('/delete')
       .send({ username: 'NewUser' })
@@ -136,7 +135,7 @@ describe('Signup Route Tests', () => {
 
 describe('Set Availabiltiy Tests', () => {
   let app
-  
+
   beforeAll(() => {
     app = express()
     app.use(express.urlencoded({ extended: true }))
@@ -160,5 +159,23 @@ describe('Set Availabiltiy Tests', () => {
     await agent
       .post('/delete')
       .send({ username: 'NewUser' })
+  })
+})
+
+describe('Get all lectuerers test', () => {
+  let app
+  beforeAll(() => {
+    app = express()
+    app.use(express.urlencoded({ extended: true }))
+    app.use(express.json())
+    app.use(session({ secret: 'test-secret', resave: false, saveUninitialized: false }))
+    app.use('/', dbAPI)
+  })
+
+  test('GET /getLectuerers - Check if lectuerers are accessible', async () => {
+    const response = await request(app).get('/getLecturers')
+    expect(response.body[0].username).toBe('Pkala')
+    expect(response.body[1].username).toBe('l')
+    expect(response.body[2].username).toBe('MigsHunter')
   })
 })
