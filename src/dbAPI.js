@@ -84,4 +84,9 @@ dbAPI.post('/setAvailability', async function (req, res) {
   res.redirect('/lecturerDashboard')
 })
 
+dbAPI.get('/getLecturers', async function (req, res) {
+  const lecturers = await User.find({ type: 'lecturer' })
+  res.send(lecturers)
+})
+
 module.exports = dbAPI
