@@ -1,6 +1,23 @@
 'use strict'
 
-function createCalendar(year, month) {
+let meetings = []
+
+const date = new Date()
+let year = date.getFullYear()
+let month = date.getMonth()
+
+fetch('/db/getMeetings')
+  .then(response => {
+    if (response.ok) {
+      return response.json()
+    }
+  })
+  .then(meetingsDB => {
+    meetings = meetingsDB
+    createCalendar(year, month)
+  })
+
+function createCalendar (year, month) {
   const currentDate = new Date()
   const currentYear = currentDate.getFullYear()
   const currentMonth = currentDate.getMonth()
@@ -56,6 +73,43 @@ function createCalendar(year, month) {
       td.classList.add('current-day')
     }
 
+    for (let j = 0; j < meetings.length; j++) {
+      const meetingDate = new Date(meetings[j].date)
+      const meetingYear = meetingDate.getFullYear()
+      const meetingMonth = meetingDate.getMonth()
+      const meetingDay = meetingDate.getDate()
+      if (year === meetingYear && month === meetingMonth && day === meetingDay) {
+        td.classList.add('meeting-day')
+        td.style.cursor = 'pointer'
+        td.addEventListener('click', async function () {
+          const orgName = await fetch('/db/getName/' + meetings[j].organiser)
+          const lectName = await fetch('/db/getName/' + meetings[j].lecturer)
+          const dialog = document.createElement('dialog')
+          let p
+          p = document.createElement('p')
+          p.innerHTML = 'Name: ' + meetings[j].name
+          dialog.appendChild(p)
+          p = document.createElement('p')
+          p.innerHTML = 'Lecturer: ' + await lectName.text()
+          dialog.appendChild(p)
+          p = document.createElement('p')
+          p.innerHTML = 'Organiser: ' + await orgName.text()
+          dialog.appendChild(p)
+          p = document.createElement('p')
+          p.innerHTML = 'duration:' + meetings[j].duration
+          dialog.appendChild(p)
+          const btn = document.createElement('button')
+          btn.textContent = 'Close'
+          btn.addEventListener('click', function () {
+            dialog.close()
+          })
+          dialog.appendChild(btn)
+          document.body.appendChild(dialog)
+          dialog.showModal()
+        })
+      }
+    }
+
     currentRow.appendChild(td)
 
     if ((firstDay.getDay() + i + 1) % 7 === 0) {
@@ -74,13 +128,7 @@ function createCalendar(year, month) {
   calendar.appendChild(table)
 }
 
-const date = new Date()
-let year = date.getFullYear()
-let month = date.getMonth()
-
-createCalendar(2023, 4)
-
-function changeMonth(offset) {
+function changeMonth (offset) {
   month += offset
 
   if (month < 0) {

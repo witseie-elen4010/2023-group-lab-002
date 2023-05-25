@@ -206,3 +206,49 @@ describe('booking a meeting', () => {
       .send({ lecturer: 'l', date: '2023-05-23', time: '09:30' })
   })
 })
+
+describe('Get all meetings test', () => {
+  let app
+  beforeAll(() => {
+    app = express()
+    app.use(express.urlencoded({ extended: true }))
+    app.use(express.json())
+    app.use(session({ secret: 'test-secret', resave: false, saveUninitialized: false }))
+    app.use('/', dbAPI)
+  })
+
+  test('GET /getMeetings - Check if meetings are accessible for student', async () => {
+    const agent = request.agent(app)
+    await agent
+      .post('/login')
+      .send({ username: 's', password: ']' })
+
+    const response = await agent.get('/getMeetings')
+    expect(response.body.length).toBeGreaterThan(2)
+  })
+  test('GET /getMeetings - Check if meetings are accessible for lecturer', async () => {
+    const agent = request.agent(app)
+    await agent
+      .post('/login')
+      .send({ username: 'l', password: ']' })
+
+    const response = await agent.get('/getMeetings')
+    expect(response.body.length).toBeGreaterThan(1)
+  })
+})
+
+describe('Get Name Function', () => {
+  let app
+  beforeAll(() => {
+    app = express()
+    app.use(express.urlencoded({ extended: true }))
+    app.use(express.json())
+    app.use(session({ secret: 'test-secret', resave: false, saveUninitialized: false }))
+    app.use('/', dbAPI)
+  })
+
+  test('GET /getName - Check if name is accessible', async () => {
+    const response = await request(app).get('/getName/s')
+    expect(response.text).toBe('Test Student')
+  })
+})
