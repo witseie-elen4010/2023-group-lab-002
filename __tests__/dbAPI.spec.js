@@ -179,3 +179,30 @@ describe('Get all lectuerers test', () => {
     expect(response.body[2].username).toBe('MigsHunter')
   })
 })
+
+describe('booking a meeting', () => {
+  let app
+  beforeAll(() => {
+    app = express()
+    app.use(express.urlencoded({ extended: true }))
+    app.use(express.json())
+    app.use(session({ secret: 'test-secret', resave: false, saveUninitialized: false }))
+    app.use('/', dbAPI)
+  })
+
+  test('POST /bookMeeting - Check if students can book a meeting', async () => {
+    const agent = request.agent(app)
+    await agent
+      .post('/login')
+      .send({ username: 's', password: ']' })
+
+    const response = await agent
+      .post('/bookMeeting')
+      .send({ lecturer: 'l', date: '2023-05-23', day: 2, time: '09:30', name: 'software consult' })
+
+    expect(response.headers.location).toBe('/studentdashboard')
+    await agent
+      .post('/deleteMeeting')
+      .send({ lecturer: 'l', date: '2023-05-23', time: '09:30' })
+  })
+})

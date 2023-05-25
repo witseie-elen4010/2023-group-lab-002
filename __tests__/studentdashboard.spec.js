@@ -62,4 +62,16 @@ describe('Test Student Dashboard page', () => {
     lecturerDropdown.dispatchEvent(new window.Event('change'))
     expect(scheduleDiv.hasChildNodes('table')).toBe(true)
   })
+
+  it('Check if lecturer available times are selectable', async () => {
+    const lecturerDropdown = document.querySelector('#lecturerDropdown')
+    await sleep(100)
+    lecturerDropdown.value = 'TestLect'
+    lecturerDropdown.dispatchEvent(new window.Event('change'))
+    const selectDate = document.querySelector('#selectDate')
+    selectDate.value = '2023-05-29'
+    selectDate.dispatchEvent(new window.Event('change'))
+    const timesDropdown = document.querySelector('#timesDropdown')
+    expect(timesDropdown.options.length).toBe(2)
+  })
 })

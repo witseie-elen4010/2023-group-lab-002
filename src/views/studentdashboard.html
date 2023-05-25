@@ -31,16 +31,27 @@
         </div>
     </div>
     </p>
-    <form method=" post">
+    <form method="post" action="db/bookMeeting">
         <div class="container" id="scheduleDiv">
             <h2>Schedule a meeting</h2>
             <div class = "dropdown">
-            <select class="form-select" id="lecturerDropdown">
-                <option selected disabled value = ''> Choose Lecturer</option>
+                <select class="form-select" id="lecturerDropdown" name="lecturer">
+                  <option selected disabled value = ''> Choose Lecturer</option>
             </select>
             </div>
             <div class="selectDate" >
-                <input type = "datetime-local">
+                <label for="selectDate">Choose a date for consultation</label>
+                <input type = "date" name="date" id="selectDate">
+            </div>
+            <div class="timesDropdown">
+                <label for="timesDropdown">Choose a time for consultation</label>
+                <select class="form-select" id="timesDropdown" name="time">
+                    <option selected disabled value=''>Choose Time</option>
+                </select>
+            </div>
+            <div id="meetingName">
+                <label for="nameInput">Enter a name for the meeting</label>
+                <input type="text" name="nameInput" id="nameInput" placeholder="Name" required>
             </div>
 
         </div>
