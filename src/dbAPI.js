@@ -19,6 +19,17 @@ const userSchema = mongoose.Schema({
 })
 const User = mongoose.model('User', userSchema)
 
+const meetingSchema = mongoose.Schema({
+  lecturer: String,
+  organiser: String,
+  date: String,
+  time: String,
+  duration: Number,
+  groupSize: Number,
+  name: String
+})
+const Meeting = mongoose.model('Meeting', meetingSchema)
+
 dbAPI.post('/login', async function (req, res) {
   const user = await User.findOne({ username: req.body.username })
   if (!user) {
@@ -87,6 +98,26 @@ dbAPI.post('/setAvailability', async function (req, res) {
 dbAPI.get('/getLecturers', async function (req, res) {
   const lecturers = await User.find({ type: 'lecturer' })
   res.send(lecturers)
+})
+
+dbAPI.post('/bookMeeting', async function (req, res) {
+  const lecturer = await User.findOne({ username: req.body.lecturer })
+  console.log(lecturer)
+  const day = new Date(req.body.date).getDay()
+  let groupSize
+  let duration
+  for (let i = 0; i < lecturer.day.length; i++) {
+    if (lecturer.day[i] === day) {
+      if (lecturer.time[i] === req.body.time) {
+        groupSize = lecturer.groupSize[i]
+        duration = lecturer.duration[i]
+        break
+      }
+    }
+  }
+  const newMeeting = new Meeting({ organiser: req.session.user.username, lecturer: req.body.lecturer, date: req.body.date, time: req.body.time, duration, groupSize, name: req.body.name })
+  await newMeeting.save()
+  res.redirect('/studentDashboard')
 })
 
 module.exports = dbAPI
