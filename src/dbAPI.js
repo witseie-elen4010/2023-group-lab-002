@@ -117,7 +117,12 @@ dbAPI.post('/bookMeeting', async function (req, res) {
   }
   const newMeeting = new Meeting({ organiser: req.session.user.username, lecturer: req.body.lecturer, date: req.body.date, time: req.body.time, duration, groupSize, name: req.body.name })
   await newMeeting.save()
-  res.redirect('/studentDashboard')
+  res.redirect('/studentdashboard')
+})
+
+dbAPI.post('/deleteMeeting', async function (req, res) {
+  await Meeting.deleteOne({ lecturer: req.body.lecturer, date: req.body.date, time: req.body.time })
+  res.redirect(req.baseUrl)
 })
 
 module.exports = dbAPI
