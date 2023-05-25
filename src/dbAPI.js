@@ -125,4 +125,19 @@ dbAPI.post('/deleteMeeting', async function (req, res) {
   res.redirect(req.baseUrl)
 })
 
+dbAPI.get('/getMeetings', async function (req, res) {
+  let meetings
+  if (req.session.user.type === 'lecturer') {
+    meetings = await Meeting.find({ lecturer: req.session.user.username })
+  } else {
+    meetings = await Meeting.find({ organiser: req.session.user.username })
+  }
+  res.send(meetings)
+})
+
+dbAPI.get('/getName/:username/', async function (req, res) {
+  const user = await User.findOne({ username: req.params.username })
+  res.send(user.name)
+})
+
 module.exports = dbAPI
