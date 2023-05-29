@@ -1,7 +1,9 @@
 'use strict'
 
+let lecturer
+
 const lecturerDropdown = document.getElementById('lecturerDropdown')
-const scheduleDiv = document.getElementById('scheduleDiv')
+const dropdownDiv = document.querySelector('.dropdown')
 let allLecturers
 
 function addLecturer (dbLecturer) {
@@ -30,7 +32,7 @@ document.querySelector('#logout_button').addEventListener('click', function (eve
 const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
 
 lecturerDropdown.addEventListener('change', function (Event) {
-  let lecturer = null
+  lecturer = null
   let i = 0
   while (lecturer === null) {
     if (allLecturers[i].username === lecturerDropdown.value) {
@@ -38,8 +40,8 @@ lecturerDropdown.addEventListener('change', function (Event) {
     }
     i++
   }
-  if (scheduleDiv.hasChildNodes('table')) {
-    scheduleDiv.removeChild(scheduleDiv.lastChild)
+  if (dropdownDiv.hasChildNodes('table')) {
+    dropdownDiv.removeChild(dropdownDiv.lastChild)
   }
   const table = document.createElement('table')
   table.classList.add('table', 'table-bordered')
@@ -86,5 +88,23 @@ lecturerDropdown.addEventListener('change', function (Event) {
   for (let i = 0; i < rows.length; i++) {
     table.appendChild(rows[i])
   }
-  scheduleDiv.appendChild(table)
+  dropdownDiv.appendChild(table)
+})
+const dateSelect = document.querySelector('#selectDate')
+const timesDropdown = document.querySelector('#timesDropdown')
+
+dateSelect.addEventListener('change', function (event) {
+  console.log(dateSelect.value)
+  const day = new Date(dateSelect.value).getDay()
+  while (timesDropdown.options.length > 1) {
+    timesDropdown.removeChild(timesDropdown.lastChild)
+  }
+  for (let i = 0; i < lecturer.time.length; i++) {
+    if (lecturer.day[i] === day) {
+      const option = document.createElement('option')
+      option.setAttribute('value', lecturer.time[i])
+      option.textContent = lecturer.time[i]
+      timesDropdown.appendChild(option)
+    }
+  }
 })

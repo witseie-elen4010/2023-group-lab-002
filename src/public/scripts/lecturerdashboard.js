@@ -27,6 +27,7 @@ fetch('/db/availability')
     const cell4 = headings.insertCell()
     cell4.innerHTML = 'Group Size'
     cell.textContent = 'Available times'
+    const rows = []
     for (let i = 0; i < data.day.length; i++) {
       const row = table.insertRow()
       const cell2 = row.insertCell()
@@ -46,6 +47,18 @@ fetch('/db/availability')
         fetch(`/db/deleteAvailability/${i}`)
         window.location.reload()
       })
+      rows.push(row)
+    }
+    rows.sort((a, b) => {
+      const dayA = days.indexOf(a.cells[0].textContent) + 1
+      const dayB = days.indexOf(b.cells[0].textContent) + 1
+      return dayA - dayB
+    })
+    while (table.rows.length > 2) {
+      table.deleteRow(2)
+    }
+    for (let i = 0; i < rows.length; i++) {
+      table.appendChild(rows[i])
     }
     div.appendChild(table)
   })
