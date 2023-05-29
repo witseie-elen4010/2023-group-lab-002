@@ -1,7 +1,7 @@
 'use strict'
-let lecturer
+
 const lecturerDropdown = document.getElementById('lecturerDropdown')
-const dropdownDiv = document.querySelector('.dropdown')
+const scheduleDiv = document.getElementById('scheduleDiv')
 let allLecturers
 
 function addLecturer (dbLecturer) {
@@ -23,10 +23,14 @@ fetch('/db/getLecturers')
     data.forEach(addLecturer)
   })
 
+document.querySelector('#logout_button').addEventListener('click', function (event) {
+  window.history.replaceState({}, '', '/login')
+})
+
 const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
 
 lecturerDropdown.addEventListener('change', function (Event) {
-  lecturer = null
+  let lecturer = null
   let i = 0
   while (lecturer === null) {
     if (allLecturers[i].username === lecturerDropdown.value) {
@@ -34,8 +38,8 @@ lecturerDropdown.addEventListener('change', function (Event) {
     }
     i++
   }
-  if (dropdownDiv.hasChildNodes('table')) {
-    dropdownDiv.removeChild(dropdownDiv.lastChild)
+  if (scheduleDiv.hasChildNodes('table')) {
+    scheduleDiv.removeChild(scheduleDiv.lastChild)
   }
   const table = document.createElement('table')
   table.classList.add('table', 'table-bordered')
@@ -82,23 +86,5 @@ lecturerDropdown.addEventListener('change', function (Event) {
   for (let i = 0; i < rows.length; i++) {
     table.appendChild(rows[i])
   }
-  dropdownDiv.appendChild(table)
-})
-const dateSelect = document.querySelector('#selectDate')
-const timesDropdown = document.querySelector('#timesDropdown')
-
-dateSelect.addEventListener('change', function (event) {
-  console.log(dateSelect.value)
-  const day = new Date(dateSelect.value).getDay()
-  while (timesDropdown.options.length > 1) {
-    timesDropdown.removeChild(timesDropdown.lastChild)
-  }
-  for (let i = 0; i < lecturer.time.length; i++) {
-    if (lecturer.day[i] === day) {
-      const option = document.createElement('option')
-      option.setAttribute('value', lecturer.time[i])
-      option.textContent = lecturer.time[i]
-      timesDropdown.appendChild(option)
-    }
-  }
+  scheduleDiv.appendChild(table)
 })
