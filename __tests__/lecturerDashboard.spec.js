@@ -36,7 +36,7 @@ describe('Test Lecturer Dashboard page', () => {
       }
     })
     window.fetch = fetchMock.sandbox()
-    window.eval(fs.readFileSync('./src/public/scripts/lecturerDashboard.js', 'utf-8'))
+    window.eval(fs.readFileSync('./src/public/scripts/lecturerdashboard.js', 'utf-8'))
   })
   afterEach(() => {
     fetchMock.reset()
