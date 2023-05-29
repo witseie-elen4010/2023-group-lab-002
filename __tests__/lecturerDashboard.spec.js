@@ -42,7 +42,7 @@ describe('Test Lecturer Dashboard page', () => {
     fetchMock.reset()
   })
   it('Check if rows of table matches number of available times', async () => {
-    await sleep(1000)
+    await sleep(100)
     const table = document.querySelector('#availability table')
     expect(table.rows.length).toBe(4)
     expect(table.rows[2].cells[0].textContent).toBe('Monday')
