@@ -252,3 +252,30 @@ describe('Get Name Function', () => {
     expect(response.text).toBe('Test Student')
   })
 })
+
+describe('Login Route Tests', () => {
+  let app
+
+  beforeAll(() => {
+    app = express()
+    app.use(express.urlencoded({ extended: true }))
+    app.use(express.json())
+    app.use(session({ secret: 'test-secret', resave: false, saveUninitialized: false }))
+    app.use('/', dbAPI)
+  })
+
+  test('POST /logout - Student is redirected to login page', async () => {
+    const agent = request.agent(app)
+    await agent
+      .post('/login')
+      .send({ username: 's', password: ']' })
+    const response = await agent.post('/logout')
+    expect(response.headers.location).toBe('/login')
+
+    await agent
+      .post('/login')
+      .send({ username: 'l', password: ']' })
+    const response2 = await agent.post('/logout')
+    expect(response2.headers.location).toBe('/login')
+  })
+})
