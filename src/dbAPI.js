@@ -48,6 +48,12 @@ dbAPI.post('/login', async function (req, res) {
   }
 })
 
+dbAPI.post('/logout', async function (req, res) {
+  req.session.destroy()
+  res.set('Cache-Control', 'no-content, must-revalidate, private')
+  res.redirect('/login')
+})
+
 dbAPI.get('/incorrectLogin', function (req, res) {
   res.send(req.session.errorLogin)
 })

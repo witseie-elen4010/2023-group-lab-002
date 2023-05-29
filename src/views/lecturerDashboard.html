@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="/cdn/css/calendar.css">
     <script defer src="/cdn/scripts/calendar.js"></script>
+    <script defer src="/cdn/scripts/lecturerdashboard.js"></script>
     <title>Lecturer Dashboard</title>
 </head>
 
@@ -15,6 +16,11 @@
     <h1>CONSULTATION</h1>
     <p>
         Welcome to your Lecturer Dashboard
+        <form method="post" action="db/logout">
+            <div class="button" id="logout_button_div">
+                <button type="submit" id = "logout_button">Logout</button>
+            </div>
+        </form>
     </p>
     <div class="container">
         <h1 class="text-center">Calendar</h1>
