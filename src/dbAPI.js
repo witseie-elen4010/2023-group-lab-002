@@ -152,8 +152,12 @@ dbAPI.get('/availability', async function (req, res) {
 
 dbAPI.get('/deleteAvailability/:index', async function (req, res) {
   const lecturer = await User.findOne({ username: req.session.user.username })
-  await User.updateOne({ username: req.session.user.username }, { $pull: { day: lecturer.day[req.params.index], time: lecturer.time[req.params.index], duration: lecturer.duration[req.params.index], groupSize: lecturer.groupSize[req.params.index] } })
-  res.redirect('/lecturerDashboard')
+  lecturer.day.splice(req.params.index, 1)
+  lecturer.time.splice(req.params.index, 1)
+  lecturer.duration.splice(req.params.index, 1)
+  lecturer.groupSize.splice(req.params.index, 1)
+  await lecturer.save()
+  res.send('deleted')
 })
 
 module.exports = dbAPI

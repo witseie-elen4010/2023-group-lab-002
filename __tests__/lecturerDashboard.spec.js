@@ -44,7 +44,6 @@ describe('Test Lecturer Dashboard page', () => {
   it('Check if rows of table matches number of available times', async () => {
     await sleep(1000)
     const table = document.querySelector('#availability table')
-    console.log(table.rows[2].cells[0].textContent)
     expect(table.rows.length).toBe(4)
     expect(table.rows[2].cells[0].textContent).toBe('Monday')
     expect(table.rows[3].cells[0].textContent).toBe('Tuesday')

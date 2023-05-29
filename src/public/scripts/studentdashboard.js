@@ -94,7 +94,6 @@ const dateSelect = document.querySelector('#selectDate')
 const timesDropdown = document.querySelector('#timesDropdown')
 
 dateSelect.addEventListener('change', function (event) {
-  console.log(dateSelect.value)
   const day = new Date(dateSelect.value).getDay()
   while (timesDropdown.options.length > 1) {
     timesDropdown.removeChild(timesDropdown.lastChild)

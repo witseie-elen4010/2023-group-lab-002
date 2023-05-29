@@ -44,7 +44,7 @@ fetch('/db/availability')
       button.classList.add('btn', 'btn-danger')
       cell6.appendChild(button)
       button.addEventListener('click', async function () {
-        fetch(`/db/deleteAvailability/${i}`)
+        await fetch(`/db/deleteAvailability/${i}`)
         window.location.reload()
       })
       rows.push(row)
