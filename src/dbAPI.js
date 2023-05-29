@@ -108,7 +108,6 @@ dbAPI.get('/getLecturers', async function (req, res) {
 
 dbAPI.post('/bookMeeting', async function (req, res) {
   const lecturer = await User.findOne({ username: req.body.lecturer })
-  console.log(lecturer)
   const day = new Date(req.body.date).getDay()
   let groupSize
   let duration
@@ -144,6 +143,21 @@ dbAPI.get('/getMeetings', async function (req, res) {
 dbAPI.get('/getName/:username/', async function (req, res) {
   const user = await User.findOne({ username: req.params.username })
   res.send(user.name)
+})
+
+dbAPI.get('/availability', async function (req, res) {
+  const lecturer = await User.findOne({ username: req.session.user.username })
+  res.send(lecturer)
+})
+
+dbAPI.get('/deleteAvailability/:index', async function (req, res) {
+  const lecturer = await User.findOne({ username: req.session.user.username })
+  lecturer.day.splice(req.params.index, 1)
+  lecturer.time.splice(req.params.index, 1)
+  lecturer.duration.splice(req.params.index, 1)
+  lecturer.groupSize.splice(req.params.index, 1)
+  await lecturer.save()
+  res.send('deleted')
 })
 
 module.exports = dbAPI
