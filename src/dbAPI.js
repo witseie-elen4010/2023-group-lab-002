@@ -146,4 +146,15 @@ dbAPI.get('/getName/:username/', async function (req, res) {
   res.send(user.name)
 })
 
+dbAPI.get('/availability', async function (req, res) {
+  const lecturer = await User.findOne({ username: req.session.user.username })
+  res.send(lecturer)
+})
+
+dbAPI.get('/deleteAvailability/:index', async function (req, res) {
+  const lecturer = await User.findOne({ username: req.session.user.username })
+  await User.updateOne({ username: req.session.user.username }, { $pull: { day: lecturer.day[req.params.index], time: lecturer.time[req.params.index], duration: lecturer.duration[req.params.index], groupSize: lecturer.groupSize[req.params.index] } })
+  res.redirect('/lecturerDashboard')
+})
+
 module.exports = dbAPI
