@@ -279,3 +279,58 @@ describe('Login Route Tests', () => {
     expect(response2.headers.location).toBe('/login')
   })
 })
+
+describe('Tests the get Availability request', () => {
+  let app
+
+  beforeAll(() => {
+    app = express()
+    app.use(express.urlencoded({ extended: true }))
+    app.use(express.json())
+    app.use(session({ secret: 'test-secret', resave: false, saveUninitialized: false }))
+    app.use('/', dbAPI)
+  })
+
+  test('GET /availibility - Get the lecturers available times', async () => {
+    const agent = request.agent(app)
+    await agent
+      .post('/login')
+      .send({ username: 'l', password: ']' })
+    const response = await agent.get('/availability')
+    expect(response.body.day[0]).toBe(2)
+    expect(response.body.time[0]).toBe('09:30')
+    expect(response.body.duration[0]).toBe(30)
+    expect(response.body.groupSize[0]).toBe(5)
+  })
+})
+
+describe('Tests delete availability', () => {
+  let app
+
+  beforeAll(() => {
+    app = express()
+    app.use(express.urlencoded({ extended: true }))
+    app.use(express.json())
+    app.use(session({ secret: 'test-secret', resave: false, saveUninitialized: false }))
+    app.use('/', dbAPI)
+  })
+
+  test('GET /availibility - Get the lecturers available times', async () => {
+    const agent = request.agent(app)
+    await agent
+      .post('/login')
+      .send({ username: 'l', password: ']' })
+
+    await agent
+      .post('/setAvailability')
+      .send({ day: 4, time: '10:30', duration: 60, groupSize: 5 })
+
+    const response = await agent.get('/availability')
+    expect(response.body.day.length).toBe(2)
+
+    await agent.get('/deleteAvailability/1')
+
+    const response2 = await agent.get('/availability')
+    expect(response2.body.day.length).toBe(1)
+  })
+})

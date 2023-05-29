@@ -108,7 +108,6 @@ dbAPI.get('/getLecturers', async function (req, res) {
 
 dbAPI.post('/bookMeeting', async function (req, res) {
   const lecturer = await User.findOne({ username: req.body.lecturer })
-  console.log(lecturer)
   const day = new Date(req.body.date).getDay()
   let groupSize
   let duration
