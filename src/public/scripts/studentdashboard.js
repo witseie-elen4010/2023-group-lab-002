@@ -8,7 +8,7 @@ const dropdownDiv = document.querySelector('.dropdown')
 const existingMeetingsDiv = document.querySelector('#existingMeetings')
 let allLecturers
 
-function addLecturer(dbLecturer) {
+function addLecturer (dbLecturer) {
   const option = document.createElement('option')
   option.setAttribute('value', dbLecturer.username)
   const optionText = document.createTextNode(dbLecturer.name)
@@ -33,7 +33,7 @@ document.querySelector('#logout_button').addEventListener('click', function (eve
 
 const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
 
-lecturerDropdown.addEventListener('change', async function (Event) {
+lecturerDropdown.addEventListener('change', async function () {
   lecturer = null
   let i = 0
   while (lecturer === null) {
@@ -179,7 +179,9 @@ lecturerDropdown.addEventListener('change', async function (Event) {
 const dateSelect = document.querySelector('#selectDate')
 const timesDropdown = document.querySelector('#timesDropdown')
 
-dateSelect.addEventListener('change', function (event) {
+dateSelect.setAttribute('min', new Date().toISOString().split('T')[0])
+
+dateSelect.addEventListener('change', function () {
   const day = new Date(dateSelect.value).getDay()
   while (timesDropdown.options.length > 1) {
     timesDropdown.removeChild(timesDropdown.lastChild)
@@ -193,3 +195,15 @@ dateSelect.addEventListener('change', function (event) {
     }
   }
 })
+async function disableScheduleButton () {
+  const response = await fetch(`/db/existingMeetings/${lecturer.username}/${dateSelect.value}/${timesDropdown.value}`)
+  const submitSchedule = document.querySelector('#submitSchedule')
+  if (await response.text() === 'true') {
+    submitSchedule.disabled = true
+  } else {
+    submitSchedule.disabled = false
+  }
+}
+
+timesDropdown.addEventListener('blur', disableScheduleButton)
+dateSelect.addEventListener('blur', disableScheduleButton)

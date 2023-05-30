@@ -112,6 +112,7 @@ dbAPI.post('/bookMeeting', async function (req, res) {
   const day = new Date(req.body.date).getDay()
   let groupSize
   let duration
+
   for (let i = 0; i < lecturer.day.length; i++) {
     if (lecturer.day[i] === day) {
       if (lecturer.time[i] === req.body.time) {
@@ -124,6 +125,16 @@ dbAPI.post('/bookMeeting', async function (req, res) {
   const newMeeting = new Meeting({ organiser: req.session.user.username, lecturer: req.body.lecturer, date: req.body.date, time: req.body.time, duration, groupSize, name: req.body.nameInput })
   await newMeeting.save()
   res.redirect('/studentdashboard')
+})
+
+dbAPI.get('/existingMeetings/:lecturer/:date/:time', async function (req, res) {
+  // Check if a meeting already exists with the same date and time
+  const existingMeeting = await Meeting.findOne({ lecturer: req.params.lecturer, date: req.params.date, time: req.params.time })
+  if (existingMeeting) {
+    res.send(true)
+  } else {
+    res.send(false)
+  }
 })
 
 dbAPI.post('/deleteMeeting', async function (req, res) {
