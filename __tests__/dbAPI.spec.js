@@ -334,3 +334,47 @@ describe('Tests delete availability', () => {
     expect(response2.body.day.length).toBe(1)
   })
 })
+
+describe('Test joining functionality', () => {
+  let app
+  beforeAll(() => {
+    app = express()
+    app.use(express.urlencoded({ extended: true }))
+    app.use(express.json())
+    app.use(session({ secret: 'test-secret', resave: false, saveUninitialized: false }))
+    app.use('/', dbAPI)
+  })
+
+  test('GET /joinMeeting - Add members to members array of meeting', async () => {
+    const agent = request.agent(app)
+    await agent
+      .post('/login')
+      .send({ username: 's', password: ']' })
+
+    const response = await agent
+      .get('/joinMeeting/646f2677ba252a3e536f167d')
+
+    expect(await response.text).toBe('Joined')
+  })
+
+  test('GET /getAllMeetings - Return all meetings', async () => {
+    const agent = request.agent(app)
+    await agent
+      .post('/login')
+      .send({ username: 's', password: ']' })
+
+    const response = await agent
+      .get('/getAllMeetings/l')
+    expect(response.body.length).toBeGreaterThan(0)
+  })
+
+  test('GET /getUsername - Return username of user', async () => {
+    const agent = request.agent(app)
+    await agent
+      .post('/login')
+      .send({ username: 's', password: ']' })
+    const response = await agent
+      .get('/getUsername')
+    expect(response.text).toBe('s')
+  })
+})

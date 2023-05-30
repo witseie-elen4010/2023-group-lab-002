@@ -5,7 +5,7 @@ const fs = require('fs')
 const { JSDOM } = jsdom
 const fetchMock = require('fetch-mock').sandbox()
 
-function sleep (ms) {
+function sleep(ms) {
   return new Promise(resolve => {
     setTimeout(resolve, ms)
   })
@@ -25,6 +25,18 @@ describe('Test Student Dashboard page', () => {
     document = dom.window.document
     window = dom.window
     fetchMock.mock('/db/getLecturers', {
+      status: 200,
+      body: [{
+        name: 'Test Lecturer',
+        username: 'TestLect',
+        password: '123456780',
+        day: [1, 2],
+        time: ['12:00', '14:00'],
+        duration: [60, 45],
+        groupSize: [20, 10]
+      }]
+    })
+    fetchMock.mock('/db/getAllMeetings/TestLect', {
       status: 200,
       body: [{
         name: 'Test Lecturer',

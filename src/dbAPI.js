@@ -26,7 +26,8 @@ const meetingSchema = mongoose.Schema({
   time: String,
   duration: Number,
   groupSize: Number,
-  name: String
+  name: String,
+  members: [String]
 })
 const Meeting = mongoose.model('Meeting', meetingSchema)
 
@@ -158,6 +159,22 @@ dbAPI.get('/deleteAvailability/:index', async function (req, res) {
   lecturer.groupSize.splice(req.params.index, 1)
   await lecturer.save()
   res.send('deleted')
+})
+
+dbAPI.get('/joinMeeting/:id', async function (req, res) {
+  const meeting = await Meeting.findOne({ _id: req.params.id })
+  meeting.members.push(req.session.user.username)
+  await meeting.save()
+  res.send('Joined')
+})
+
+dbAPI.get('/getUsername', async function (req, res) {
+  res.send(req.session.user.username)
+})
+
+dbAPI.get('/getAllMeetings/:lecturer', async function (req, res) {
+  const meetings = await Meeting.find({ lecturer: req.params.lecturer })
+  res.send(meetings)
 })
 
 module.exports = dbAPI
