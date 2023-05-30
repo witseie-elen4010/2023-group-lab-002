@@ -18,14 +18,14 @@
         Welcome to your student Dashboard
     <form method="post" action="db/logout">
         <div class="button" id="logout_button_div">
-            <button type="submit" id = "logout_button">Logout</button>
+            <button type="submit" id="logout_button">Logout</button>
         </div>
     </form>
     <div class="container">
         <h1 class="text-center">Calendar</h1>
         <div class="calendar-container">
             <div class="calendar-header">
-                <button class="btn btn-primary" id="previous-btn" >Previous Month</button>
+                <button class="btn btn-primary" id="previous-btn">Previous Month</button>
                 <h3 id="month-year" class="text-center"></h3>
                 <button class="btn btn-primary" id="next-btn">Next Month</button>
             </div>
@@ -34,18 +34,22 @@
             </table>
         </div>
     </div>
-    </p>
+    <div class="container" id="joinDiv">
+        <h2>Join an existing meeting</h2>
+        <div class="existingMeetings" id="existingMeetings">
+        </div>
+    </div>
     <form method="post" action="db/bookMeeting">
         <div class="container" id="scheduleDiv">
             <h2>Schedule a meeting</h2>
-            <div class = "dropdown">
+            <div class="dropdown">
                 <select class="form-select" id="lecturerDropdown" name="lecturer">
-                  <option selected disabled value = ''> Choose Lecturer</option>
-            </select>
+                    <option selected disabled value=''> Choose Lecturer</option>
+                </select>
             </div>
-            <div class="selectDate" >
+            <div class="selectDate">
                 <label for="selectDate">Choose a date for consultation</label>
-                <input type = "date" name="date" id="selectDate">
+                <input type="date" name="date" id="selectDate">
             </div>
             <div class="timesDropdown">
                 <label for="timesDropdown">Choose a time for consultation</label>
@@ -62,7 +66,7 @@
         <div class="btn btn-primary">
             <button id="submitSchedule" class="btn btn-primary">Join meeting</button>
         </div>
-    </form> 
+    </form>
 </body>
 
 </html>
