@@ -121,7 +121,7 @@ dbAPI.post('/bookMeeting', async function (req, res) {
       }
     }
   }
-  const newMeeting = new Meeting({ organiser: req.session.user.username, lecturer: req.body.lecturer, date: req.body.date, time: req.body.time, duration, groupSize, name: req.body.name })
+  const newMeeting = new Meeting({ organiser: req.session.user.username, lecturer: req.body.lecturer, date: req.body.date, time: req.body.time, duration, groupSize, name: req.body.nameInput })
   await newMeeting.save()
   res.redirect('/studentdashboard')
 })
