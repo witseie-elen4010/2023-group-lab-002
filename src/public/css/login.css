@@ -1,3 +1,112 @@
 p{
+    color: rgb(155, 47, 165);
+}
+
+h2 {
+    color: white;
+}
+.station {
+    color: rgb(122, 255, 244); /* Adjust the color as desired */
+  }
+
+body {
+    background-image: url("/cdn/images/login_bg.png");
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.app-name-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10vh; /* Adjust the height as needed */
+    color: white;
+    margin-bottom: 0vh;
+    margin-top: 10vh
+}
+.slogan-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 2vh; /* Adjust the height as needed */
+    color: white;
+    margin-bottom: 0vh;
+    margin-top: 1vh;
+}
+.slogan-heading {
+    font-size: 17px;
+    font-weight: normal;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+    width: 50%;
+    margin-top: 0vh;
+}
+
+#login_form {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: left;
+    background-color: whitesmoke;
+    padding: 5vh;
+    border-radius: 10%;
+    width: 60vh;
+    height: 40vh
+}
+button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2vh;
+}
+#login_button {
+    width: 100%;
+}
+
+input[type=text],
+input[type=password] {
+    width: 100%;
+    padding-top: 0vh;
+    border: none;
+    border-bottom: 0.1vh solid black;
+    background-color: whitesmoke;
+}
+
+.button {
+    margin-top: 1.5vh;
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+
+.signup_link {
+    margin-left: 0.5em;
+    background-color: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: underline;
+}
+
+input[type=text]:focus,
+input[type=password]:focus {
+    outline: none;
+}
+
+::placeholder {
+    color: black;
+    opacity: 0.3;
+}
+
+.login_error{
     color: red;
+    font-size: 14px;
 }

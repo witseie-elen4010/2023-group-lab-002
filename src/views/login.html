@@ -5,24 +5,40 @@
     <title>Login Page</title>
     <meta charset="utf-8" />
     <script defer src="/cdn/scripts/login.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="/cdn/css/login.css" />
 </head>
 
 <body>
-    <form action="db/login" method="post">
-        <div>
-            <label for="username">Username: </label>
-            <input type="text" id="username" name="username">
-        </div>
-        <div>
-            <label for="password">Password: </label>
-            <input type="password" id="password" name="password">
-            <div class="button" id="login_button_div">
-                <button type="submit">Login</button>
+    <div class="app-name-container">
+        <h1>C O N S U L T <span class="station">S T A T I O N</span></h1> 
+    </div>
+    <div class="slogan-container">
+        <h4 class="slogan-heading">Fuel your grades. Stay on track!</h4>
+    </div>
+    <div class="container">
+        <h2>Log In</h2>
+        <form action="db/login" method="post" id="login_form">
+            <div class="username">
+                <label for="username" class="text_label">Username: </label>
+                <input type="text" id="username" name="username" placeholder="Username">
             </div>
-    </form>
-    <div class="button" id="signup_button_div">
-        <a href="/signup">Sign Up</a>
+            <div class="password">
+                <label for="password" class="text_label">Password: </label>
+                <input type="password" id="password" name="password" placeholder="Password">
+                
+            </div>
+            <div class="button" id="login_button_div">
+                <button class="btn btn-primary" type="submit" id="login_button">Log In</button>
+            </div>
+            
+        </form>
+        <div class="button" id="signup_button_div">
+            <span class="signup_text">Don't have an account? </span>
+            <a href="/signup" class="signup_link"> Sign Up</a>
+        </div> 
+    </div>
+    
 </body>
 
 </html>

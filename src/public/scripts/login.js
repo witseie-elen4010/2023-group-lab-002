@@ -1,18 +1,19 @@
 fetch('db/incorrectLogin')
-.then(response => {
+  .then(response => {
     if (response.ok) {
-        return response.text()
+      return response.text()
     }
-})
-.then(data => {
+  })
+  .then(data => {
     if (data === 'true') {
-        document.getElementById('login_button_div')
-        const p = document.createElement('p')
-        const text = document.createTextNode('Incorrect username or password')
-        p.appendChild(text)
-        login_button_div.appendChild(p)
+      const loginButtonDiv = document.getElementById('login_button_div')
+      const p = document.createElement('p')
+      p.classList.add('login_error')
+      const text = document.createTextNode('Incorrect username or password')
+      p.appendChild(text)
+      loginButtonDiv.parentNode.insertBefore(p, loginButtonDiv.nextSibling)
     }
-})
-.catch(error => {    
+  })
+  .catch(error => {
     console.error('Error:', error)
-})
+  })
