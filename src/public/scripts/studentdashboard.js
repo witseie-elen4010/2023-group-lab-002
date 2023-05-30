@@ -31,16 +31,6 @@ document.querySelector('#logout_button').addEventListener('click', function (eve
   window.history.replaceState({}, '', '/login')
 })
 
-fetch('db/getMeetings/')
-  .then(response => {
-    if (response.ok) {
-      return response.json()
-    }
-  })
-  .then(data => {
-    allMeetings = data
-  })
-
 const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
 
 lecturerDropdown.addEventListener('change', async function (Event) {
@@ -52,6 +42,10 @@ lecturerDropdown.addEventListener('change', async function (Event) {
     }
     i++
   }
+
+  const response = await fetch('/db/getAllMeetings/' + lecturerDropdown.value)
+  allMeetings = await response.json()
+
   if (dropdownDiv.hasChildNodes('table')) {
     dropdownDiv.removeChild(dropdownDiv.lastChild)
   }
@@ -81,16 +75,25 @@ lecturerDropdown.addEventListener('change', async function (Event) {
   table.appendChild(tableHeader)
   table.appendChild(columnNames)
 
+  const tableHeader2 = table2.insertRow()
+  const cell6 = tableHeader2.insertCell()
+  cell6.innerHTML = '<b>Existing meetings</b>'
+  cell6.colSpan = 6
+  cell6.align = 'center'
+
   const columnNames2 = table2.insertRow()
   cell1 = columnNames2.insertCell()
   cell2 = columnNames2.insertCell()
   cell3 = columnNames2.insertCell()
   cell4 = columnNames2.insertCell()
+  const cell5 = columnNames2.insertCell()
+  const cell7 = columnNames2.insertCell()
 
   cell1.textContent = 'Day'
   cell2.textContent = 'Time'
   cell3.textContent = 'Duration (min)'
   cell4.textContent = 'Group Size'
+  cell5.textContent = 'Meeting Name'
 
   table2.appendChild(columnNames2)
 
@@ -106,6 +109,8 @@ lecturerDropdown.addEventListener('change', async function (Event) {
       cell3.textContent = allMeetings[i].duration
       const cell4 = row.insertCell()
       cell4.textContent = allMeetings[i].groupSize
+      const cell5 = row.insertCell()
+      cell5.textContent = allMeetings[i].name
       const cell6 = row.insertCell()
       const button = document.createElement('button')
       button.classList.add('btn', 'btn-primary')
@@ -134,8 +139,8 @@ lecturerDropdown.addEventListener('change', async function (Event) {
     return dateA - dateB
   })
 
-  while (table2.rows.length > 1) {
-    table2.deleteRow(1)
+  while (table2.rows.length > 2) {
+    table2.deleteRow(2)
   }
 
   rows.forEach(row => {

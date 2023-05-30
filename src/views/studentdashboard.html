@@ -34,20 +34,18 @@
             </table>
         </div>
     </div>
-    <div class="container" id="joinDiv">
-        <h2>Join an existing meeting</h2>
-        <div class="existingMeetings" id="existingMeetings">
-        </div>
-    </div>
     <form method="post" action="db/bookMeeting">
         <div class="container" id="scheduleDiv">
-            <h2>Schedule a meeting</h2>
+            <h2>Schedule/Join a meeting</h2>
             <div class="dropdown">
                 <select class="form-select" id="lecturerDropdown" name="lecturer">
                     <option selected disabled value=''> Choose Lecturer</option>
                 </select>
             </div>
+            <div class="existingMeetings" id="existingMeetings">
+            </div>
             <div class="selectDate">
+                <h3>Schedule a meeting</h3>
                 <label for="selectDate">Choose a date for consultation</label>
                 <input type="date" name="date" id="selectDate">
             </div>
