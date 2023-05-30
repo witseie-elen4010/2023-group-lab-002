@@ -373,7 +373,7 @@ describe('Test joining functionality', () => {
     await agent
       .post('/login')
       .send({ username: 's', password: ']' })
-    const response = await request(app)
+    const response = await agent
       .get('/getUsername')
     expect(response.text).toBe('s')
   })
