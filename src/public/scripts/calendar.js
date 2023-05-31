@@ -91,6 +91,11 @@ function createCalendar (year, month) {
         td.addEventListener('click', async function () {
           const orgName = await fetch('/db/getName/' + meetings[j].organiser)
           const lectName = await fetch('/db/getName/' + meetings[j].lecturer)
+          const members = []
+          for (let k = 0; k < meetings[j].members.length; k++) {
+            const memeber = await fetch('/db/getName/' + meetings[j].members[k])
+            members.push(await memeber.text())
+          }
           const dialog = document.createElement('dialog')
           let p
           p = document.createElement('p')
@@ -107,6 +112,9 @@ function createCalendar (year, month) {
           dialog.appendChild(p)
           p = document.createElement('p')
           p.innerHTML = 'duration:' + meetings[j].duration
+          dialog.appendChild(p)
+          p = document.createElement('p')
+          p.innerHTML = 'Members: ' + members
           dialog.appendChild(p)
           const btn = document.createElement('button')
           btn.textContent = 'Close'
@@ -130,8 +138,7 @@ function createCalendar (year, month) {
             })
 
             dialog.appendChild(button)
-          }
-          else if (meetings[j].lecturer === username | meetings[j].organiser === username){
+          } else if (meetings[j].lecturer === username | meetings[j].organiser === username) {
             const button = document.createElement('button')
             button.textContent = 'Cancel'
             button.classList.add('btn', 'btn-danger')
