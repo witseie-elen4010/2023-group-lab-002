@@ -199,4 +199,19 @@ dbAPI.get('/deleteMeeting/:id', async function(req, res) {
   await Meeting.deleteOne({ _id: req.params.id })
   res.send('deleted')
 })
+
+dbAPI.post('/deleteUser', async function (req, res) {
+  await User.deleteOne({ username: req.session.user.username })
+  await Meeting.deleteMany({ $or: [{ organiser: req.session.user.username }, { lecturer: req.session.user.username }] })
+  const meeting = await Meeting.find({ members: req.session.user.username })
+  for (let i = 0; i < meeting.length; i++) {
+    meeting[i].members.splice(meeting[i].members.indexOf(req.session.user.username), 1)
+    await meeting[i].save()
+  }
+
+  req.session.destroy()
+  res.set('Cache-Control', 'no-content, must-revalidate, private')
+  res.redirect('/login')
+})
+
 module.exports = dbAPI

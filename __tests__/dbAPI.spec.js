@@ -397,7 +397,7 @@ describe('Test joining functionality', () => {
         .post('/login')
         .send({ username: 's', password: ']' })
   
-      const response = await agent
+      await agent
         .post('/bookMeeting')
         .send({ lecturer: 'Pkala', date: '2023-06-07', day: 3, time: '10:30', name: 'software consult' })
   
@@ -407,5 +407,33 @@ describe('Test joining functionality', () => {
         .get(`/deleteMeeting/${meetingId}`)
       expect(response2.text).toBe('deleted')
     })
+  })
+})
+
+describe('Delete user', () => {
+  let app
+  beforeAll(() => {
+    app = express()
+    app.use(express.urlencoded({ extended: true }))
+    app.use(express.json())
+    app.use(session({ secret: 'test-secret', resave: false, saveUninitialized: false }))
+    app.use('/', dbAPI)
+  })
+
+  test('POST /deleteUser - Check if user can delete their account', async () => {
+    const agent = request.agent(app)
+    await agent
+      .post('/signup')
+      .send({ name: 'Miguel', username: 'migs2.0', password: '12345678', email: 'miguelhunter0124@gmail.co', position: 'student' })
+
+    await agent
+      .get('/joinMeeting/646f2677ba252a3e536f167d')
+
+    await agent
+      .post('/deleteUser')
+
+    const response1 = await agent
+      .get('/checkUsername/migs2.0')
+    expect(response1.text).toBe('false')
   })
 })
