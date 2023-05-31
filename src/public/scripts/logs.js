@@ -1,28 +1,29 @@
 'use strict'
 
-console.log('hello')
 let logs = []
 
 const tableDiv = document.querySelector('#logTable')
 const table = document.createElement('table')
-table.classList.add('table', 'table-bordered')
-const tableHeader = table.insertRow()
+table.classList.add('table', 'table-striped', 'table-bordered', 'table-hover', 'table-sm')
+const tableHeader = table.createTHead().insertRow()
+tableHeader.align = 'center'
 const cell1 = tableHeader.insertCell()
-cell1.textContent = 'Date'
+cell1.innerHTML = '<b>Date</b>'
 const cell2 = tableHeader.insertCell()
-cell2.textContent = 'Time'
+cell2.innerHTML = '<b>Time (UTC)</b>'
 const cell3 = tableHeader.insertCell()
-cell3.textContent = 'Username'
+cell3.innerHTML = '<b>Username</b>'
 const cell4 = tableHeader.insertCell()
-cell4.textContent = 'Nature'
+cell4.innerHTML = '<b>Nature</b>'
 table.appendChild(tableHeader)
 fetch('/db/getLogs')
   .then(response => response.json())
   .then(data => {
-    console.log(data)
     logs = data
+    const tbody = table.createTBody()
+    tbody.align = 'center'
     for (let i = 0; i < logs.length; i++) {
-      const row = table.insertRow()
+      const row = tbody.insertRow()
       const cell1 = row.insertCell()
       cell1.textContent = logs[i].date
       const cell2 = row.insertCell()
