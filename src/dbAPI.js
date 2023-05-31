@@ -253,4 +253,9 @@ dbAPI.get('/getLogs', async function (req, res) {
   res.send(logs)
 })
 
+dbAPI.get('/deleteLogs/:id', async function (req, res) {
+  await Log.deleteOne({ _id: req.params.id })
+  res.send('deleted')
+})
+
 module.exports = dbAPI
