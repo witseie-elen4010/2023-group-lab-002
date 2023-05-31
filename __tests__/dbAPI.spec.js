@@ -345,7 +345,7 @@ describe('Test joining functionality', () => {
     app.use('/', dbAPI)
   })
 
-  test('GET /joinMeeting - Add members to members array of meeting', async () => {
+  test('GET /joinMeeting, /leaveMeeting - Add members to members array of meeting and leave the meeting', async () => {
     const agent = request.agent(app)
     await agent
       .post('/login')
@@ -355,6 +355,9 @@ describe('Test joining functionality', () => {
       .get('/joinMeeting/646f2677ba252a3e536f167d')
 
     expect(await response.text).toBe('Joined')
+
+    const response2 = await agent.get('/leaveMeeting/646f2677ba252a3e536f167d')
+    expect(await response2.text).toBe('Left')
   })
 
   test('GET /getAllMeetings - Return all meetings', async () => {
