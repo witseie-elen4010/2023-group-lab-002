@@ -25,6 +25,11 @@
     color: #fff;
 }
 
+.multiple-meeting-day {
+    background-color: #ffc107;
+    color: #fff;
+}
+
 .close:hover {
     cursor: pointer;
 }
