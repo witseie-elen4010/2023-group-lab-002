@@ -209,3 +209,31 @@ async function disableScheduleButton() {
 
 timesDropdown.addEventListener('blur', disableScheduleButton)
 dateSelect.addEventListener('blur', disableScheduleButton)
+
+const deleteButton = document.querySelector('#deleteUser')
+deleteButton.addEventListener('click', async function () {
+  const dialog = document.createElement('dialog')
+  dialog.classList.add('dialog')
+  const form = document.createElement('form')
+  form.setAttribute('method', 'post')
+  form.setAttribute('action', '/db/deleteUser')
+  dialog.innerHTML = 'Are you sure you want to delete your account?'
+  const yesButton = document.createElement('button')
+  yesButton.classList.add('btn', 'btn-danger')
+  yesButton.textContent = 'Yes'
+  yesButton.type = 'submit'
+  yesButton.addEventListener('click', function () {
+    window.history.replaceState({}, '', '/login')
+  })
+  const noButton = document.createElement('button')
+  noButton.classList.add('btn', 'btn-primary')
+  noButton.textContent = 'No'
+  noButton.addEventListener('click', function () {
+    dialog.close()
+  })
+  form.appendChild(yesButton)
+  form.appendChild(noButton)
+  dialog.appendChild(form)
+  document.body.appendChild(dialog)
+  dialog.showModal()
+})
