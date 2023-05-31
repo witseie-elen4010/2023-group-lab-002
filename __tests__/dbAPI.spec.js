@@ -380,4 +380,32 @@ describe('Test joining functionality', () => {
       .get('/getUsername')
     expect(response.text).toBe('s')
   })
+
+  describe('delete meeting', () => {
+    let app
+    beforeAll(() => {
+      app = express()
+      app.use(express.urlencoded({ extended: true }))
+      app.use(express.json())
+      app.use(session({ secret: 'test-secret', resave: false, saveUninitialized: false }))
+      app.use('/', dbAPI)
+    })
+  
+    test('GET /deleteMeeting - Check if user can delete a meeting', async () => {
+      const agent = request.agent(app)
+      await agent
+        .post('/login')
+        .send({ username: 's', password: ']' })
+  
+      const response = await agent
+        .post('/bookMeeting')
+        .send({ lecturer: 'Pkala', date: '2023-06-07', day: 3, time: '10:30', name: 'software consult' })
+  
+      const response1 = await agent.get('/getMeetings')
+      const meetingId = response1[-1]._id
+      const response2 = await agent
+        .get(`/deleteMeeting/${meetingId}`)
+      expect(response2.text).toBe('deleted')
+    })
+  })
 })

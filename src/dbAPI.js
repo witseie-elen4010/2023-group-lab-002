@@ -195,4 +195,8 @@ dbAPI.get('/leaveMeeting/:id', async function (req, res) {
   res.send('Left')
 })
 
+dbAPI.get('/deleteMeeting/:id', async function(req, res) {  
+  await Meeting.deleteOne({ _id: req.params.id })
+  res.send('deleted')
+})
 module.exports = dbAPI

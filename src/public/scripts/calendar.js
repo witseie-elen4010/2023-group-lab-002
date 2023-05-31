@@ -128,6 +128,20 @@ function createCalendar (year, month) {
                 window.location.reload()
               }
             })
+
+            dialog.appendChild(button)
+          }
+          else if (meetings[j].lecturer === username | meetings[j].organiser === username){
+            const button = document.createElement('button')
+            button.textContent = 'Cancel'
+            button.classList.add('btn', 'btn-danger')
+            button.addEventListener('click', async function () {
+              const response = await fetch(`/db/deleteMeeting/${meetings[j]._id}`)
+              if (response.ok) {
+                window.location.reload()
+              }
+            })
+
             dialog.appendChild(button)
           }
           document.body.appendChild(dialog)
