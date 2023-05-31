@@ -28,7 +28,7 @@ describe('Test Student Dashboard page', () => {
       body: [{
         organiser: 'test',
         lecturer: 'test',
-        date: '2023-05-20',
+        date: new Date().toISOString().slice(0, 10),
         time: '12:00',
         duration: 30,
         groupSize: 5,
@@ -45,7 +45,7 @@ describe('Test Student Dashboard page', () => {
 
   it('Check if the day of meeting has class meeting-day', async () => {
     await sleep(100)
-    const day = document.querySelector('.meeting-day')
+    const day = document.querySelector('.current-meeting-day')
     expect(day).toBeTruthy()
     const prevBtn = document.querySelector('#previous-btn')
     prevBtn.click()
