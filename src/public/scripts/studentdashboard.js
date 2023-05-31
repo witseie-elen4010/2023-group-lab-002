@@ -92,7 +92,7 @@ lecturerDropdown.addEventListener('change', async function () {
   cell1.textContent = 'Day'
   cell2.textContent = 'Time'
   cell3.textContent = 'Duration (min)'
-  cell4.textContent = 'Group Size'
+  cell4.textContent = 'Capacity'
   cell5.textContent = 'Meeting Name'
 
   table2.appendChild(columnNames2)
@@ -110,7 +110,7 @@ lecturerDropdown.addEventListener('change', async function () {
       const cell3 = row.insertCell()
       cell3.textContent = allMeetings[i].duration
       const cell4 = row.insertCell()
-      cell4.textContent = allMeetings[i].groupSize
+      cell4.textContent = `${allMeetings[i].members.length + 1} / ${allMeetings[i].groupSize}`
       const cell5 = row.insertCell()
       cell5.textContent = allMeetings[i].name
       const cell6 = row.insertCell()
