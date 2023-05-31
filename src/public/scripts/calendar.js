@@ -72,7 +72,6 @@ function createCalendar (year, month) {
     if (year === currentYear && month === currentMonth && day === currentDay) {
       td.classList.add('current-day')
     }
-
     for (let j = 0; j < meetings.length; j++) {
       const meetingDate = new Date(meetings[j].date)
       const meetingYear = meetingDate.getFullYear()
@@ -84,6 +83,9 @@ function createCalendar (year, month) {
         if (td.classList.contains('current-day')) {
           td.classList.remove('current-day')
           td.classList.add('current-meeting-day')
+        } else if (td.classList.contains('meeting-day')) {
+          td.classList.remove('meeting-day')
+          td.classList.add('multiple-meeting-day')
         } else {
           td.classList.add('meeting-day')
         }
@@ -99,7 +101,12 @@ function createCalendar (year, month) {
           const dialog = document.createElement('dialog')
           const btn = document.createElement('span')
           btn.classList.add('close')
-          btn.innerHTML = '&times;'
+          const dialogs = document.querySelector('dialog')
+          if (dialogs) {
+            btn.innerHTML = 'Next Meeting&gt;'
+          } else {
+            btn.innerHTML = '&times;'
+          }
           btn.addEventListener('click', function () {
             dialog.close()
           })
@@ -118,7 +125,7 @@ function createCalendar (year, month) {
           p.innerHTML = 'Time: ' + meetings[j].time
           dialog.appendChild(p)
           p = document.createElement('p')
-          p.innerHTML = 'duration:' + meetings[j].duration
+          p.innerHTML = 'duration: ' + meetings[j].duration + ' minutes'
           dialog.appendChild(p)
           p = document.createElement('p')
           p.innerHTML = 'Members: ' + members
