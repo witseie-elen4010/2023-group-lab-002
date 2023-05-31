@@ -1,0 +1,151 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-image: url("/cdn/images/lecturerbg.png");
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.app-name-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 5vh; /* Adjust the height as needed */
+    color: rgb(255, 255, 255);
+    margin-bottom: 1vh;
+    margin-top: 0vh;
+    background-color: rgb(39, 39, 39);
+    padding: 6vh
+}
+
+.station {
+    color: rgb(144, 167, 243); /* Adjust the color as desired */
+  }
+
+#heading {
+    font-size: 3vh;
+    margin-bottom: 2vh;
+    font-weight: bold;
+}
+
+.container {
+    display: flex;
+}
+.container-left{
+    flex: 1;
+    background-color: rgb(160, 173, 207);
+    border-radius: 7%;
+    padding: 5vh;
+    margin-right: 5vh;
+    margin-bottom: 10vh;
+    color: white;
+    box-shadow: 0px 10px 7px rgb(41, 41, 41);
+}
+.scheduleContainer {
+  flex: 1;
+  color: white;
+}
+
+#available{
+    background-color: rgb(178, 200, 226);
+    border-radius: 6%;
+    padding: 5vh;
+    margin-right: 5vh;
+    box-shadow: 0px 10px 7px rgb(41, 41, 41);
+}
+
+#submitSchedule{
+    margin-top: 2vh;
+}
+#availability {
+    margin-top: 5vh;
+}
+
+.table td {
+    color: white;
+}
+
+#logout_button_div{
+    padding: 10px;
+}
+.btn-link {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-size: inherit;
+    font-family: inherit;
+    color: white;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/* The Overlay (background) */
+.overlay {
+    /* Height & width depends on how you want to reveal the overlay (see JS below) */   
+    height: 100%;
+    width: 0;
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    background-color: rgb(0,0,0); /* Black fallback color */
+    background-color: rgba(0,0,0, 0.9); /* Black w/opacity */
+    overflow-x: hidden; /* Disable horizontal scroll */
+    transition: 0.5s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
+  }
+  
+  /* Position the content inside the overlay */
+  .overlay-content {
+    position: relative;
+    top: 25%; /* 25% from the top */
+    width: 100%; /* 100% width */
+    text-align: center; /* Centered text/links */
+    margin-top: 30px; /* 30px top margin to avoid conflict with the close button on smaller screens */
+  }
+  
+  /* The navigation links inside the overlay */
+  .overlay a {
+    padding: 8px;
+    text-decoration: none;
+    font-size: 36px;
+    color: #818181;
+    display: block; /* Display block instead of inline */
+    transition: 0.3s; /* Transition effects on hover (color) */
+  }
+
+  .options-button {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 10px;
+    margin-right: 5vh;
+    margin-top: 2vh;
+    color: white;
+    font-size: 5vh;
+  }
+  
+  /* When you mouse over the navigation links, change their color */
+  .overlay a:hover, .overlay a:focus {
+    color: #f1f1f1;
+  }
+  
+  /* Position the close button (top right corner) */
+  .overlay .closebtn {
+    position: absolute;
+    top: 20px;
+    right: 45px;
+    font-size: 60px;
+  }
+  
+  /* When the height of the screen is less than 450 pixels, change the font-size of the links and position the close button again, so they don't overlap */
+  @media screen and (max-height: 450px) {
+    .overlay a {font-size: 20px}
+    .overlay .closebtn {
+      font-size: 40px;
+      top: 15px;
+      right: 35px;
+    }
+  }
+

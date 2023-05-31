@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/cdn/css/lecturerdashboard.css" />
     <link rel="stylesheet" href="/cdn/css/calendar.css">
     <script defer src="/cdn/scripts/calendar.js"></script>
     <script defer src="/cdn/scripts/lecturerdashboard.js"></script>
@@ -13,32 +14,44 @@
 </head>
 
 <body>
-    <h1>CONSULTATION</h1>
-        Welcome to your Lecturer Dashboard
-        <form method="post" action="db/logout">
-            <div class="button" id="logout_button_div">
-                <button type="submit" id = "logout_button">Logout</button>
-            </div>
-        </form>
-     <div class="button" id="delete_button_div">
-      <button type="submit" id="deleteUser" class="btn btn-danger"> Delete Your account</button>
+    <div class="app-name-container">
+        <h1 class="app-name">C O N S U L T <span class="station">S T A T I O N</span></h1> 
     </div>
-
-    <div class="container">
-        <h1 class="text-center">Calendar</h1>
-        <div class="calendar-container">
-            <div class="calendar-header">
-                <button class="btn btn-primary" id="previous-btn">Previous Month</button>
-                <h3 id="month-year" class="text-center"></h3>
-                <button class="btn btn-primary" id="next-btn">Next Month</button>
+    <div class="text-center" id = "heading">
+        Welcome to your Lecturer Dashboard!
+    </div>
+    <div id="myNav" class="overlay">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <div class="overlay-content">
+            <form method="post" action="db/logout">
+                <div class="btn-link" id="logout_button_div">
+                    <button class ="btn-link" type="submit" id = "logout_button">Logout</button>
+                </div>
+            </form>
+             <div class="button" id="delete_button_div">
+                <button type="submit" id="deleteUser" class="btn btn-danger"> Delete Your account</button>
             </div>
-            <table class="table">
-                <tbody id="calendar"></tbody>
-            </table>
         </div>
+    </div>
+    <span class="options-button" onclick="openNav()">&#9776;</span>
+    <div class="container">
+        <div class = "container-left">
+            <h2 class="text-center">Calendar</h2>
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <button class="btn btn-primary" id="previous-btn">Previous Month</button>
+                    <h3 id="month-year" class="text-center"></h3>
+                    <button class="btn btn-primary" id="next-btn">Next Month</button>
+                </div>
+                <table class="table">
+                    <tbody id="calendar"></tbody>
+                </table>
+            </div>
+        </div>
+        
         <div class="scheduleContainer">
-            <form action="db/setAvailability" method="post">
-                <h2>Set available times</h2>
+            <form action="db/setAvailability" method="post" id="available">
+                <h2 class="text-center">Set available times</h2>
                 <div class="selectDate">
                     <select class="form-select" id="daysDropdown" name="day" required>
                         <option disabled selected value=""> Choose a day of the week</option>
@@ -55,15 +68,15 @@
                     <input type="number" id="duration" placeholder="Enter duration in minutes" name="duration" required>
                     <br>
                     <input type="number" id="groupSize" placeholder="Enter group size" name="groupSize" required>
-                    </div>
+                        <div>
+                            <button id="submitSchedule" class="btn btn-primary" type="submit">Set availability</button>
+                        </div>
                 </div>
-                <div>
-                    <button id="submitSchedule" class="btn btn-primary" type="submit">Set availability</button>
-                </div>
-            </form>
+             </form>
+             <div id="availability">
+            </div>
         </div>
-        <div id="availability">
-        </div>
+            
     </div>
 </body>
 

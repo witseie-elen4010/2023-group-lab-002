@@ -17,6 +17,10 @@ fetch('/db/availability')
     table.classList.add('table', 'table-bordered')
     const tableHeader = table.insertRow()
     const cell = tableHeader.insertCell()
+    cell.textContent = 'Current Available times'
+    cell.setAttribute('colspan', '5')
+    cell.style.textAlign = 'center'
+    cell.style.fontWeight = 'bold'
     const headings = table.insertRow()
     const cell1 = headings.insertCell()
     cell1.innerHTML = 'Day'
@@ -26,7 +30,9 @@ fetch('/db/availability')
     cell3.innerHTML = 'Duration (min)'
     const cell4 = headings.insertCell()
     cell4.innerHTML = 'Group Size'
-    cell.textContent = 'Available times'
+    const emptycell = headings.insertCell()
+    emptycell.innerHTML = ''
+
     const rows = []
     for (let i = 0; i < data.day.length; i++) {
       const row = table.insertRow()
@@ -62,3 +68,13 @@ fetch('/db/availability')
     }
     div.appendChild(table)
   })
+
+/* Open when someone clicks on the span element */
+function openNav () {
+  document.getElementById('myNav').style.width = '100%';
+}
+
+/* Close when someone clicks on the "x" symbol inside the overlay */
+function closeNav () {
+  document.getElementById('myNav').style.width = '0%';
+}
