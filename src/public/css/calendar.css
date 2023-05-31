@@ -24,3 +24,7 @@
     background-color: #ff0707;
     color: #fff;
 }
+
+.close:hover {
+    cursor: pointer;
+}
