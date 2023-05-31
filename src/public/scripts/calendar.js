@@ -78,7 +78,9 @@ function createCalendar (year, month) {
       const meetingYear = meetingDate.getFullYear()
       const meetingMonth = meetingDate.getMonth()
       const meetingDay = meetingDate.getDate()
-      if (year === meetingYear && month === meetingMonth && day === meetingDay) {
+      const timeDifference = meetingDate.getTime() - currentDate.getTime()
+      const TotalDays = Math.ceil(timeDifference / (1000 * 3600 * 24))
+      if (year === meetingYear && month === meetingMonth && day === meetingDay && TotalDays >= 0) {
         if (td.classList.contains('current-day')) {
           td.classList.remove('current-day')
           td.classList.add('current-meeting-day')
@@ -113,6 +115,21 @@ function createCalendar (year, month) {
             dialog.close()
           })
           dialog.appendChild(btn)
+          const response = await fetch('/db/getUsername')
+          const username = await response.text()
+          console.log(username)
+          if (meetings[j].members.includes(username)) {
+            const button = document.createElement('button')
+            button.textContent = 'Leave'
+            button.classList.add('btn', 'btn-danger')
+            button.addEventListener('click', async function () {
+              const response = await fetch(`/db/leaveMeeting/${meetings[j]._id}`)
+              if (response.ok) {
+                window.location.reload()
+              }
+            })
+            dialog.appendChild(button)
+          }
           document.body.appendChild(dialog)
           dialog.showModal()
         })

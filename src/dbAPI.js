@@ -147,7 +147,7 @@ dbAPI.get('/getMeetings', async function (req, res) {
   if (req.session.user.type === 'lecturer') {
     meetings = await Meeting.find({ lecturer: req.session.user.username })
   } else {
-    meetings = await Meeting.find({ organiser: req.session.user.username })
+    meetings = await Meeting.find({ $or: [{ organiser: req.session.user.username }, { members: req.session.user.username }] })
   }
   res.send(meetings)
 })
@@ -186,6 +186,13 @@ dbAPI.get('/getUsername', async function (req, res) {
 dbAPI.get('/getAllMeetings/:lecturer', async function (req, res) {
   const meetings = await Meeting.find({ lecturer: req.params.lecturer })
   res.send(meetings)
+})
+
+dbAPI.get('/leaveMeeting/:id', async function (req, res) {
+  const meeting = await Meeting.findOne({ _id: req.params.id })
+  meeting.members.splice(meeting.members.indexOf(req.session.user.username), 1)
+  await meeting.save()
+  res.send('Left')
 })
 
 module.exports = dbAPI
