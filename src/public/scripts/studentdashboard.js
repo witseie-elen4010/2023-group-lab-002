@@ -8,7 +8,7 @@ const dropdownDiv = document.querySelector('.dropdown')
 const existingMeetingsDiv = document.querySelector('#existingMeetings')
 let allLecturers
 
-function addLecturer (dbLecturer) {
+function addLecturer(dbLecturer) {
   const option = document.createElement('option')
   option.setAttribute('value', dbLecturer.username)
   const optionText = document.createTextNode(dbLecturer.name)
@@ -99,7 +99,9 @@ lecturerDropdown.addEventListener('change', async function () {
 
   let rows = []
   for (let i = 0; i < allMeetings.length; i++) {
-    if (allMeetings[i].lecturer === lecturerDropdown.value) {
+    const timeDifference = new Date(allMeetings[i].date) - new Date()
+    const dayDifference = Math.ceil(timeDifference / (1000 * 3600 * 24))
+    if (allMeetings[i].lecturer === lecturerDropdown.value && dayDifference >= 0) {
       const row = table2.insertRow()
       const cell1 = row.insertCell()
       cell1.textContent = allMeetings[i].date
@@ -195,7 +197,7 @@ dateSelect.addEventListener('change', function () {
     }
   }
 })
-async function disableScheduleButton () {
+async function disableScheduleButton() {
   const response = await fetch(`/db/existingMeetings/${lecturer.username}/${dateSelect.value}/${timesDropdown.value}`)
   const submitSchedule = document.querySelector('#submitSchedule')
   if (await response.text() === 'true') {
