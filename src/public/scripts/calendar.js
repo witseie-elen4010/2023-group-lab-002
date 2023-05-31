@@ -79,7 +79,12 @@ function createCalendar (year, month) {
       const meetingMonth = meetingDate.getMonth()
       const meetingDay = meetingDate.getDate()
       if (year === meetingYear && month === meetingMonth && day === meetingDay) {
-        td.classList.add('meeting-day')
+        if (td.classList.contains('current-day')) {
+          td.classList.remove('current-day')
+          td.classList.add('current-meeting-day')
+        } else {
+          td.classList.add('meeting-day')
+        }
         td.style.cursor = 'pointer'
         td.addEventListener('click', async function () {
           const orgName = await fetch('/db/getName/' + meetings[j].organiser)
@@ -96,10 +101,14 @@ function createCalendar (year, month) {
           p.innerHTML = 'Organiser: ' + await orgName.text()
           dialog.appendChild(p)
           p = document.createElement('p')
+          p.innerHTML = 'Time: ' + meetings[j].time
+          dialog.appendChild(p)
+          p = document.createElement('p')
           p.innerHTML = 'duration:' + meetings[j].duration
           dialog.appendChild(p)
           const btn = document.createElement('button')
           btn.textContent = 'Close'
+          btn.classList.add('btn', 'btn-primary')
           btn.addEventListener('click', function () {
             dialog.close()
           })
