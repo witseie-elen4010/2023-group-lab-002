@@ -402,7 +402,7 @@ describe('Test joining functionality', () => {
         .send({ lecturer: 'Pkala', date: '2023-06-07', day: 3, time: '10:30', name: 'software consult' })
   
       const response1 = await agent.get('/getMeetings')
-      const meetingId = response1[-1]._id
+      const meetingId = response1.body[response1.body.length-1]._id
       const response2 = await agent
         .get(`/deleteMeeting/${meetingId}`)
       expect(response2.text).toBe('deleted')
