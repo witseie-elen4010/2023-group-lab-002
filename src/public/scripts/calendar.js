@@ -97,6 +97,13 @@ function createCalendar (year, month) {
             members.push(await memeber.text())
           }
           const dialog = document.createElement('dialog')
+          const btn = document.createElement('span')
+          btn.classList.add('close')
+          btn.innerHTML = '&times;'
+          btn.addEventListener('click', function () {
+            dialog.close()
+          })
+          dialog.appendChild(btn)
           let p
           p = document.createElement('p')
           p.innerHTML = 'Name: ' + meetings[j].name
@@ -116,13 +123,6 @@ function createCalendar (year, month) {
           p = document.createElement('p')
           p.innerHTML = 'Members: ' + members
           dialog.appendChild(p)
-          const btn = document.createElement('button')
-          btn.textContent = 'Close'
-          btn.classList.add('btn', 'btn-primary')
-          btn.addEventListener('click', function () {
-            dialog.close()
-          })
-          dialog.appendChild(btn)
           const response = await fetch('/db/getUsername')
           const username = await response.text()
           console.log(username)
@@ -143,10 +143,32 @@ function createCalendar (year, month) {
             button.textContent = 'Cancel'
             button.classList.add('btn', 'btn-danger')
             button.addEventListener('click', async function () {
-              const response = await fetch(`/db/deleteMeeting/${meetings[j]._id}`)
-              if (response.ok) {
-                window.location.reload()
-              }
+              const dialog = document.createElement('dialog')
+              let p = document.createElement('p')
+              p.innerHTML = 'Are you sure you want to cancel this meeting?'
+              dialog.appendChild(p)
+              p = document.createElement('p')
+              p.innerHTML = 'Doing this will remove all members from the meeting'
+              dialog.appendChild(p)
+              const btn = document.createElement('button')
+              btn.textContent = 'Yes'
+              btn.classList.add('btn', 'btn-primary')
+              btn.addEventListener('click', async function () {
+                const response = await fetch(`/db/deleteMeeting/${meetings[j]._id}`)
+                if (response.ok) {
+                  window.location.reload()
+                }
+              })
+              dialog.appendChild(btn)
+              const btn2 = document.createElement('button')
+              btn2.textContent = 'No'
+              btn2.classList.add('btn', 'btn-secondary')
+              btn2.addEventListener('click', function () {
+                dialog.close()
+              })
+              dialog.appendChild(btn2)
+              document.body.appendChild(dialog)
+              dialog.showModal()
             })
 
             dialog.appendChild(button)
