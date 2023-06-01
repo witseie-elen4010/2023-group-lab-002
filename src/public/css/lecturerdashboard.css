@@ -45,6 +45,17 @@ body {
   flex: 1;
   color: white;
 }
+#duration {
+  width: 205px; 
+  margin-bottom: 5px;
+}
+#groupSize{
+  width: 205px;
+}
+#time{
+  margin-left: 10px;
+  margin-top: 5px;
+}
 
 #available{
     background-color: rgb(178, 200, 226);

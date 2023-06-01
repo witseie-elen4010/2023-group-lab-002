@@ -108,7 +108,7 @@ function createCalendar (year, month) {
             btn.innerHTML = '&times;'
           }
           btn.addEventListener('click', function () {
-            dialog.close()
+            document.body.removeChild(dialog)
           })
           dialog.appendChild(btn)
           let p
