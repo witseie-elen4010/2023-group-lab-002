@@ -1,11 +1,10 @@
 body {
     margin: 0;
     padding: 0;
-    background-image: url("/cdn/images/lecturerbg.png");
+    background-image: url("/cdn/images/studentbg.png");
     background-attachment: fixed;
     background-size: cover;
 }
-
 .app-name-container {
     display: flex;
     justify-content: center;
@@ -19,7 +18,7 @@ body {
 }
 
 .station {
-    color: rgb(144, 167, 243); /* Adjust the color as desired */
+    color: rgb(117, 209, 212); /* Adjust the color as desired */
   }
 
 #heading {
@@ -27,13 +26,54 @@ body {
     margin-bottom: 2vh;
     font-weight: bold;
 }
-
 .container {
     display: flex;
+    flex-wrap: wrap;
 }
 .container-left{
     flex: 1;
-    background-color: rgb(160, 173, 207);
+    background-color: rgb(160, 205, 207);
+    border-radius: 7%;
+    padding: 5vh;
+    margin-right: 5vh;
+    margin-bottom: 10vh;
+    color: white;
+    box-shadow: 0px 10px 7px rgb(41, 41, 41);
+    max-height: 540px;
+}
+.container-right {
+  flex: 1;
+  flex-grow: 1 ;
+  color: rgb(0, 0, 0);
+  justify-content: center;
+  align-items: center;
+  max-width: unset;
+  overflow-y: auto;
+  max-height: 500px;
+}
+
+.table td {
+    color: white;
+}
+.table2 td {
+    color: white;
+}
+
+.chooseLecturer {
+    background-color: rgb(140, 194, 201);
+    border-radius: 7%;
+    padding: 5vh;
+    margin-right: 5vh;
+    margin-bottom: 5vh;
+    color: white;
+    box-shadow: 0px 10px 7px rgb(41, 41, 41);
+    width: 450px;
+}
+#lecturerDropdown {
+    margin-bottom: 2vh;
+}
+.Scheduling{
+    background-color: rgb(139, 178, 201);
     border-radius: 7%;
     padding: 5vh;
     margin-right: 5vh;
@@ -41,41 +81,9 @@ body {
     color: white;
     box-shadow: 0px 10px 7px rgb(41, 41, 41);
 }
-.scheduleContainer {
-  flex: 1;
-  color: white;
-}
-#duration {
-  width: 205px; 
-  margin-bottom: 5px;
-}
-#groupSize{
-  width: 205px;
-}
-#time{
-  margin-left: 10px;
-  margin-top: 5px;
-}
-
-#available{
-    background-color: rgb(178, 200, 226);
-    border-radius: 6%;
-    padding: 5vh;
-    margin-right: 5vh;
-    box-shadow: 0px 10px 7px rgb(41, 41, 41);
-}
-
-#submitSchedule{
+#submitButton {
     margin-top: 2vh;
 }
-#availability {
-    margin-top: 5vh;
-}
-
-.table td {
-    color: white;
-}
-
 #logout_button_div{
     padding: 10px;
 }
@@ -160,12 +168,12 @@ body {
     }
   }
 
-.button-container {
+  .button-container {
     display: flex;
     gap: 10px;
     justify-content: center;
-}
+  }
 
-.dialog {
+  .dialog {
     width: 370px;
-}
+  }
