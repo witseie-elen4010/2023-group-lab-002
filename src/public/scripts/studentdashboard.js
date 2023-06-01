@@ -232,7 +232,7 @@ deleteButton.addEventListener('click', async function () {
     dialog.close()
   })
   form.appendChild(yesButton)
-  form.appendChild(noButton)
+  dialog.appendChild(noButton)
   dialog.appendChild(form)
   document.body.appendChild(dialog)
   dialog.showModal()
