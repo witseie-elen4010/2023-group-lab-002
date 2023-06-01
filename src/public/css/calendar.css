@@ -1,6 +1,5 @@
 .calendar-container {
-    max-width: 400px;
-    margin: 0 auto;
+    max-width: 500px; 
 }
 
 .calendar-header {
@@ -33,3 +32,10 @@
 .close:hover {
     cursor: pointer;
 }
+
+dialog {
+    border: none; /* Remove the default border */
+    border-radius: 10px; /* Set the border radius to create rounded corners */
+    box-shadow: 10px 10px 2px rgba(0, 0, 0, 0.3); /* Add a box shadow for a visual effect */
+    width: 250px;
+  }
