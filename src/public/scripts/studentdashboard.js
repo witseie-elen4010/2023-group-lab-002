@@ -129,8 +129,13 @@ lecturerDropdown.addEventListener('change', async function () {
         button.disabled = true
       }
       button.addEventListener('click', async function (event) {
-        await fetch(`/db/joinMeeting/${allMeetings[i]._id}`)
-        window.location.reload()
+        let response = await fetch(`/db/joinMeeting/${allMeetings[i]._id}`)
+        response = await response.text()
+        if (response === 'Meeting not found') {
+          window.alert('Meeting not found, please refresh the page')
+        } else {
+          window.location.reload()
+        }
       })
       button.textContent = 'Join'
       cell6.appendChild(button)
@@ -191,13 +196,18 @@ dateSelect.addEventListener('change', function () {
   while (timesDropdown.options.length > 1) {
     timesDropdown.removeChild(timesDropdown.lastChild)
   }
+  let checkDate = false
   for (let i = 0; i < lecturer.time.length; i++) {
     if (lecturer.day[i] === day) {
       const option = document.createElement('option')
       option.setAttribute('value', lecturer.time[i])
       option.textContent = lecturer.time[i]
       timesDropdown.appendChild(option)
+      checkDate = true
     }
+  }
+  if (!checkDate) {
+    window.alert('The chosen lecturer does not have any available times on the selected date')
   }
 })
 async function disableScheduleButton () {
