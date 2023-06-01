@@ -193,13 +193,18 @@ dateSelect.addEventListener('change', function () {
   while (timesDropdown.options.length > 1) {
     timesDropdown.removeChild(timesDropdown.lastChild)
   }
+  let checkDate = false
   for (let i = 0; i < lecturer.time.length; i++) {
     if (lecturer.day[i] === day) {
       const option = document.createElement('option')
       option.setAttribute('value', lecturer.time[i])
       option.textContent = lecturer.time[i]
       timesDropdown.appendChild(option)
+      checkDate = true
     }
+  }
+  if (!checkDate) {
+    window.alert('The chosen lecturer does not have any available times on the selected date')
   }
 })
 async function disableScheduleButton() {
