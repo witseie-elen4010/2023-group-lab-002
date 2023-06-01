@@ -80,7 +80,7 @@ lecturerDropdown.addEventListener('change', async function () {
 
   const tableHeader2 = table2.insertRow()
   const cell6 = tableHeader2.insertCell()
-  cell6.innerHTML = '<b>Existing meetings</b>'
+  cell6.innerHTML = '<b>Join an Existing Meeting</b>'
   cell6.colSpan = 6
   cell6.align = 'center'
 
@@ -238,7 +238,8 @@ deleteButton.addEventListener('click', async function () {
   noButton.addEventListener('click', function () {
     dialog.close()
   })
-  form.appendChild (yesButton)
+
+  form.appendChild(yesButton)
   buttonContainer.appendChild(form)
   buttonContainer.appendChild(noButton)
 

@@ -77,6 +77,10 @@ deleteButton.addEventListener('click', async function () {
   form.setAttribute('method', 'post')
   form.setAttribute('action', '/db/deleteUser')
   dialog.innerHTML = 'Are you sure you want to delete your account?'
+
+  const buttonContainer = document.createElement('div')
+  buttonContainer.classList.add('button-container')
+
   const yesButton = document.createElement('button')
   yesButton.classList.add('btn', 'btn-danger')
   yesButton.textContent = 'Yes'
@@ -91,8 +95,10 @@ deleteButton.addEventListener('click', async function () {
     dialog.close()
   })
   form.appendChild(yesButton)
-  dialog.appendChild(noButton)
-  dialog.appendChild(form)
+  buttonContainer.appendChild(form)
+  buttonContainer.appendChild(noButton)
+
+  dialog.appendChild(buttonContainer)
   document.body.appendChild(dialog)
   dialog.showModal()
 })

@@ -160,3 +160,12 @@ body {
     }
   }
 
+.button-container {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.dialog {
+    width: 370px;
+}

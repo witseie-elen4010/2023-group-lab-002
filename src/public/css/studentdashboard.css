@@ -48,6 +48,8 @@ body {
   justify-content: center;
   align-items: center;
   max-width: unset;
+  overflow-y: auto;
+  max-height: 500px;
 }
 
 .table td {
@@ -62,9 +64,10 @@ body {
     border-radius: 7%;
     padding: 5vh;
     margin-right: 5vh;
-    margin-bottom: 10vh;
+    margin-bottom: 5vh;
     color: white;
     box-shadow: 0px 10px 7px rgb(41, 41, 41);
+    width: 450px;
 }
 #lecturerDropdown {
     margin-bottom: 2vh;
