@@ -8,7 +8,7 @@ const dropdownDiv = document.querySelector('.dropdown')
 const existingMeetingsDiv = document.querySelector('#existingMeetings')
 let allLecturers
 
-function addLecturer(dbLecturer) {
+function addLecturer (dbLecturer) {
   const option = document.createElement('option')
   option.setAttribute('value', dbLecturer.username)
   const optionText = document.createTextNode(dbLecturer.name)
@@ -55,12 +55,15 @@ lecturerDropdown.addEventListener('change', async function () {
   }
   const table = document.createElement('table')
   const table2 = document.createElement('table')
+
   table.classList.add('table', 'table-bordered')
   table2.classList.add('table', 'table-bordered')
   const tableHeader = table.insertRow()
   const cell = tableHeader.insertCell()
   cell.textContent = 'Available times'
-
+  cell.setAttribute('colspan', '4')
+  cell.style.textAlign = 'center'
+  cell.style.fontWeight = 'bold'
   const columnNames = table.insertRow()
   let cell1 = columnNames.insertCell()
   let cell2 = columnNames.insertCell()
@@ -197,7 +200,7 @@ dateSelect.addEventListener('change', function () {
     }
   }
 })
-async function disableScheduleButton() {
+async function disableScheduleButton () {
   const response = await fetch(`/db/existingMeetings/${lecturer.username}/${dateSelect.value}/${timesDropdown.value}`)
   const submitSchedule = document.querySelector('#submitSchedule')
   if (await response.text() === 'true') {
@@ -218,6 +221,10 @@ deleteButton.addEventListener('click', async function () {
   form.setAttribute('method', 'post')
   form.setAttribute('action', '/db/deleteUser')
   dialog.innerHTML = 'Are you sure you want to delete your account?'
+
+  const buttonContainer = document.createElement('div')
+  buttonContainer.classList.add('button-container')
+
   const yesButton = document.createElement('button')
   yesButton.classList.add('btn', 'btn-danger')
   yesButton.textContent = 'Yes'
@@ -231,9 +238,12 @@ deleteButton.addEventListener('click', async function () {
   noButton.addEventListener('click', function () {
     dialog.close()
   })
-  form.appendChild(yesButton)
-  dialog.appendChild(noButton)
-  dialog.appendChild(form)
+  form.appendChild (yesButton)
+  buttonContainer.appendChild(form)
+  buttonContainer.appendChild(noButton)
+
+  dialog.appendChild(buttonContainer)
+
   document.body.appendChild(dialog)
   dialog.showModal()
 })

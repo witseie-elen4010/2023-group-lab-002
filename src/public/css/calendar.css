@@ -10,12 +10,12 @@
 }
 
 .current-day {
-    background-color: #007bff;
+    background-color: #31428f;
     color: #fff;
 }
 
 .meeting-day {
-    background-color: #28a745;
+    background-color: #33a77a;
     color: #fff;
 }
 
@@ -25,7 +25,7 @@
 }
 
 .multiple-meeting-day {
-    background-color: #ffc107;
+    background-color: #6bb961;
     color: #fff;
 }
 

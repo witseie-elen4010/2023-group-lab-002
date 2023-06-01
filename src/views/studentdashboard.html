@@ -8,66 +8,98 @@
     <script defer src="/cdn/scripts/calendar.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="/cdn/css/calendar.css">
+    <link rel="stylesheet" href="/cdn/css/studentdashboard.css" />
     <script defer src="/cdn/scripts/studentdashboard.js"></script>
+    <script>
+        function openNav () {
+            document.getElementById('myNav').style.width = '100%';
+        }
+    </script>
+    <script>
+        function closeNav () {
+            document.getElementById('myNav').style.width = '0%';
+        }
+    </script>
     <title>Student Dashboard</title>
 </head>
 
 <body>
-    <h1>CONSULTATION</h1>
-    <p>
-        Welcome to your student Dashboard
-    <form method="post" action="db/logout">
-        <div class="button" id="logout_button_div">
-            <button type="submit" id="logout_button">Logout</button>
-        </div>
-    </form>
-    <div class="button" id="delete_button_div">
-        <button type="submit" id="deleteUser" class="btn btn-danger"> Delete Your account</button>
-      </div>
-    <div class="container">
-        <h1 class="text-center">Calendar</h1>
-        <div class="calendar-container">
-            <div class="calendar-header">
-                <button class="btn btn-primary" id="previous-btn">Previous Month</button>
-                <h3 id="month-year" class="text-center"></h3>
-                <button class="btn btn-primary" id="next-btn">Next Month</button>
+    <div class="app-name-container">
+        <h1 class="app-name">C O N S U L T <span class="station">S T A T I O N</span></h1> 
+    </div>
+    <div class="text-center" id = "heading">
+        Welcome to your Student Dashboard!
+    </div>
+    <div id="myNav" class="overlay">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <div class="overlay-content">
+            <form method="post" action="db/logout">
+                <div class="btn-link" id="logout_button_div">
+                    <button class ="btn-link" type="submit" id = "logout_button">Logout</button>
+                </div>
+            </form>
+             <div class="button" id="delete_button_div">
+                <button type="submit" id="deleteUser" class="btn btn-danger"> Delete Your account</button>
             </div>
-            <table class="table">
-                <tbody id="calendar"></tbody>
-            </table>
         </div>
     </div>
-    <form method="post" action="db/bookMeeting">
-        <div class="container" id="scheduleDiv">
-            <h2>Schedule/Join a meeting</h2>
-            <div class="dropdown">
-                <select class="form-select" id="lecturerDropdown" name="lecturer">
-                    <option selected disabled value=''> Choose Lecturer</option>
-                </select>
+    <span class="options-button" onclick="openNav()">&#9776;</span>
+    <div class="container">
+        <div class="container-left">
+            <h1 class="text-center">Calendar</h1>
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <button class="btn btn-primary" id="previous-btn">Previous Month</button>
+                    <h3 id="month-year" class="text-center"></h3>
+                    <button class="btn btn-primary" id="next-btn">Next Month</button>
+                </div>
+                <table class="table">
+                    <tbody id="calendar"></tbody>
+                </table>
             </div>
-            <div class="existingMeetings" id="existingMeetings">
-            </div>
-            <div class="selectDate">
-                <h3>Schedule a meeting</h3>
-                <label for="selectDate">Choose a date for consultation</label>
-                <input type="date" name="date" id="selectDate">
-            </div>
-            <div class="timesDropdown">
-                <label for="timesDropdown">Choose a time for consultation</label>
-                <select class="form-select" id="timesDropdown" name="time">
-                    <option selected disabled value=''>Choose Time</option>
-                </select>
-            </div>
-            <div id="meetingName">
-                <label for="nameInput">Enter a name for the meeting</label>
-                <input type="text" name="nameInput" id="nameInput" placeholder="Name" required>
-            </div>
-
         </div>
-        <div class="btn btn-primary">
-            <button id="submitSchedule" class="btn btn-primary">Schedule meeting</button>
+        <div class = "container-right">
+            <form method="post" action="db/bookMeeting">
+                <div class="container" id="scheduleDiv">
+                    <div class="chooseLecturer">
+                        <h2>Schedule/Join a meeting</h2>
+                        <div class="dropdown">
+                            <select class="form-select" id="lecturerDropdown" name="lecturer">
+                                <option selected disabled value=''> Choose Lecturer</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="existingMeetings" id="existingMeetings">
+                    </div>
+                    <div class = "Scheduling">
+                        <div class="selectDate">
+                            <h3>Schedule a meeting</h3>
+                            <label for="selectDate">Choose a date for consultation</label>
+                            <input type="date" name="date" id="selectDate" required>
+                        </div>
+                        <div class="timesDropdown">
+                            <label for="timesDropdown">Choose a time for consultation</label>
+                            <select class="form-select" id="timesDropdown" name="time" required>
+                                <option selected disabled value=''>Choose Time</option>
+                            </select>
+                        </div>
+                        <div id="meetingName">
+                            <label for="nameInput">Enter a name for the meeting</label>
+                            <input type="text" name="nameInput" id="nameInput" placeholder="Name" required>
+                        </div>
+                        <div class="btn btn-primary" id = "submitButton">
+                            <button id="submitSchedule" class="btn btn-primary">Schedule meeting</button>
+                        </div>
+                    </div>
+                    
+                    </div>
+               
+            </form>
         </div>
-    </form>
+    </div>
+    
+   
 </body>
 
 </html>
