@@ -33,7 +33,6 @@ describe('Login Route Tests', () => {
     expect(response.status).toBe(302) // Redirect status code
     expect(response.headers.location).toBe('/studentdashboard')
   })
-
   test('POST /login - Correct credentials, redirect to studentDashboard', async () => {
     // Perform the login request
     const response = await request(app)
@@ -352,11 +351,11 @@ describe('Test joining functionality', () => {
       .send({ username: 's', password: ']' })
 
     const response = await agent
-      .get('/joinMeeting/646f2677ba252a3e536f167d')
+      .get('/joinMeeting/6470d807d8b9f2ef74cbf894')
 
     expect(await response.text).toBe('Joined')
 
-    const response2 = await agent.get('/leaveMeeting/646f2677ba252a3e536f167d')
+    const response2 = await agent.get('/leaveMeeting/6470d807d8b9f2ef74cbf894')
     expect(await response2.text).toBe('Left')
   })
 
@@ -390,21 +389,22 @@ describe('Test joining functionality', () => {
       app.use(session({ secret: 'test-secret', resave: false, saveUninitialized: false }))
       app.use('/', dbAPI)
     })
-  
+
     test('GET /deleteMeeting - Check if user can delete a meeting', async () => {
       const agent = request.agent(app)
       await agent
         .post('/login')
         .send({ username: 's', password: ']' })
-  
+
       await agent
         .post('/bookMeeting')
         .send({ lecturer: 'Pkala', date: '2023-06-07', day: 3, time: '10:30', name: 'software consult' })
-  
+
       const response1 = await agent.get('/getMeetings')
-      const meetingId = response1.body[response1.body.length-1]._id
+      const meetingId = response1.body[response1.body.length - 1]._id
       const response2 = await agent
         .get(`/deleteMeeting/${meetingId}`)
+
       expect(response2.text).toBe('deleted')
     })
   })
@@ -427,7 +427,7 @@ describe('Delete user', () => {
       .send({ name: 'Miguel', username: 'migs2.0', password: '12345678', email: 'miguelhunter0124@gmail.co', position: 'student' })
 
     await agent
-      .get('/joinMeeting/646f2677ba252a3e536f167d')
+      .get('/joinMeeting/6470d807d8b9f2ef74cbf894')
 
     await agent
       .post('/deleteUser')

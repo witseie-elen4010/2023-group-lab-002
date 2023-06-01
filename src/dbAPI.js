@@ -31,25 +31,57 @@ const meetingSchema = mongoose.Schema({
 })
 const Meeting = mongoose.model('Meeting', meetingSchema)
 
+const logSchema = mongoose.Schema({
+  username: String,
+  date: String,
+  time: String,
+  nature: String,
+  role: String
+})
+const Log = mongoose.model('Log', logSchema)
+
+async function addLog(username, nature, role) {
+  const date = new Date()
+  const log = new Log({
+    username,
+    date: date.toISOString().slice(0, 10),
+    time: date.toISOString().slice(11, 19),
+    nature,
+    role
+  })
+
+  if (process.env.NODE_ENV !== 'test') {
+    await log.save()
+  }
+}
+
 dbAPI.post('/login', async function (req, res) {
   const user = await User.findOne({ username: req.body.username })
   if (!user) {
     req.session.errorLogin = true
+    addLog(req.body.username, 'Failed to login', 'Unknown role')
     res.redirect('/login')
   } else if (bcrypt.compareSync(req.body.password, user.password)) {
     req.session.user = user
     if (user.type === 'lecturer') {
+      addLog(req.body.username, 'Logged in', 'Lecturer')
       res.redirect('/lecturerDashboard')
-    } else {
+    } else if (user.type === 'student') {
+      addLog(req.body.username, 'Logged in', 'Student')
       res.redirect('/studentdashboard')
+    } else {
+      addLog(req.body.username, 'Logged in', 'Admin')
+      res.redirect('/logs')
     }
   } else {
     req.session.errorLogin = true
+    await addLog(req.body.username, 'Failed to login', 'Unknown role')
     res.redirect('/login')
   }
 })
 
 dbAPI.post('/logout', async function (req, res) {
+  addLog(req.session.user.username, 'Logged out', req.session.user.type)
   req.session.destroy()
   res.set('Cache-Control', 'no-content, must-revalidate, private')
   res.redirect('/login')
@@ -82,10 +114,10 @@ dbAPI.post('/signup', async function (req, res) {
   const newUser = new User({ name: req.body.name, username: req.body.username, email: req.body.email, password: hashPassword, type: req.body.position })
   await newUser.save()
   req.session.user = newUser
+  addLog(req.body.username, 'Signed up', req.body.position)
   res.redirect('/dashboard')
 })
 
-// Use later for deleting existing accounts
 dbAPI.post('/delete', async function (req, res) {
   await User.deleteOne({ username: req.body.username })
   res.redirect('/login')
@@ -99,6 +131,7 @@ dbAPI.post('/setAvailability', async function (req, res) {
   lecturer.duration.push(req.body.duration)
   lecturer.groupSize.push(req.body.groupSize)
   await lecturer.save()
+  addLog(req.session.user.username, 'Set new availability', 'Lecturer')
   res.redirect('/lecturerDashboard')
 })
 
@@ -124,6 +157,7 @@ dbAPI.post('/bookMeeting', async function (req, res) {
   }
   const newMeeting = new Meeting({ organiser: req.session.user.username, lecturer: req.body.lecturer, date: req.body.date, time: req.body.time, duration, groupSize, name: req.body.nameInput })
   await newMeeting.save()
+  addLog(req.session.user.username, `Booked a meeting with ${req.body.lecturer}`, 'Student')
   res.redirect('/studentdashboard')
 })
 
@@ -164,6 +198,7 @@ dbAPI.get('/availability', async function (req, res) {
 
 dbAPI.get('/deleteAvailability/:index', async function (req, res) {
   const lecturer = await User.findOne({ username: req.session.user.username })
+  addLog(req.session.user.username, `Deleted availability: ${lecturer.day[req.params.index]} - ${lecturer.time[req.params.index]}`, 'Lecturer')
   lecturer.day.splice(req.params.index, 1)
   lecturer.time.splice(req.params.index, 1)
   lecturer.duration.splice(req.params.index, 1)
@@ -175,6 +210,7 @@ dbAPI.get('/deleteAvailability/:index', async function (req, res) {
 dbAPI.get('/joinMeeting/:id', async function (req, res) {
   const meeting = await Meeting.findOne({ _id: req.params.id })
   meeting.members.push(req.session.user.username)
+  addLog(req.session.user.username, `Joined meeting with ${meeting.lecturer} on ${meeting.date}`, 'Student')
   await meeting.save()
   res.send('Joined')
 })
@@ -191,16 +227,20 @@ dbAPI.get('/getAllMeetings/:lecturer', async function (req, res) {
 dbAPI.get('/leaveMeeting/:id', async function (req, res) {
   const meeting = await Meeting.findOne({ _id: req.params.id })
   meeting.members.splice(meeting.members.indexOf(req.session.user.username), 1)
+  addLog(req.session.user.username, `Left meeting with ${meeting.lecturer} on ${meeting.date}`, 'Student')
   await meeting.save()
   res.send('Left')
 })
 
-dbAPI.get('/deleteMeeting/:id', async function(req, res) {  
+dbAPI.get('/deleteMeeting/:id', async function (req, res) {
+  const meeting = await Meeting.findOne({ _id: req.params.id })
+  addLog(req.session.user.username, `Deleted meeting with ${meeting.lecturer} on ${meeting.date}`, 'Student')
   await Meeting.deleteOne({ _id: req.params.id })
   res.send('deleted')
 })
 
 dbAPI.post('/deleteUser', async function (req, res) {
+  addLog(req.session.user.username, 'Deleted account', req.session.user.type)
   await User.deleteOne({ username: req.session.user.username })
   await Meeting.deleteMany({ $or: [{ organiser: req.session.user.username }, { lecturer: req.session.user.username }] })
   const meeting = await Meeting.find({ members: req.session.user.username })
@@ -212,6 +252,16 @@ dbAPI.post('/deleteUser', async function (req, res) {
   req.session.destroy()
   res.set('Cache-Control', 'no-content, must-revalidate, private')
   res.redirect('/login')
+})
+
+dbAPI.get('/getLogs', async function (req, res) {
+  const logs = await Log.find({})
+  res.send(logs)
+})
+
+dbAPI.get('/deleteLogs/:id', async function (req, res) {
+  await Log.deleteOne({ _id: req.params.id })
+  res.send('deleted')
 })
 
 module.exports = dbAPI
