@@ -126,8 +126,13 @@ lecturerDropdown.addEventListener('change', async function () {
         button.disabled = true
       }
       button.addEventListener('click', async function (event) {
-        await fetch(`/db/joinMeeting/${allMeetings[i]._id}`)
-        window.location.reload()
+        let response = await fetch(`/db/joinMeeting/${allMeetings[i]._id}`)
+        response = await response.text()
+        if (response === 'Meeting not found') {
+          window.alert('Meeting not found, please refresh the page')
+        } else {
+          window.location.reload()
+        }
       })
       button.textContent = 'Join'
       cell6.appendChild(button)
