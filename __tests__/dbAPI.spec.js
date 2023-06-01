@@ -12,14 +12,6 @@ afterAll(async () => {
   await mongoose.disconnect()
 })
 
-async function removeTestLog(app) {
-  const response1 = await request(app)
-    .get('/getLogs')
-
-  await request(app)
-    .get(`/deleteLogs/${response1.body[response1.body.length - 1]._id}`)
-}
-
 describe('Login Route Tests', () => {
   let app
 
@@ -40,7 +32,6 @@ describe('Login Route Tests', () => {
     // Assert the response
     expect(response.status).toBe(302) // Redirect status code
     expect(response.headers.location).toBe('/studentdashboard')
-    await removeTestLog(app)
   })
   test('POST /login - Correct credentials, redirect to studentDashboard', async () => {
     // Perform the login request
@@ -51,8 +42,6 @@ describe('Login Route Tests', () => {
     // Assert the response
     expect(response.status).toBe(302) // Redirect status code
     expect(response.headers.location).toBe('/lecturerDashboard')
-
-    await removeTestLog(app)
   })
 
   test('POST /login - Incorrect username, redirect to login with error', async () => {
@@ -65,8 +54,6 @@ describe('Login Route Tests', () => {
     // Assert the response
     expect(response.status).toBe(302) // Redirect status code
     expect(response.headers.location).toBe('/login')
-
-    await removeTestLog(app)
   })
 
   test('POST /login - Incorrect password, redirect to login with error', async () => {
@@ -79,8 +66,6 @@ describe('Login Route Tests', () => {
     expect(response.status).toBe(302) // Redirect status code
     expect(response.headers.location).toBe('/login')
     expect(response.header['set-cookie']).toBeTruthy()
-
-    await removeTestLog(app)
   })
 })
 
@@ -130,8 +115,6 @@ describe('Signup Route Tests', () => {
     // Assert the response
     expect(response.status).toBe(302) // Redirect status code
     expect(response.headers.location).toBe('/dashboard')
-
-    await removeTestLog(app)
   })
 
   test('Get /incorrectLogin - Check if errorLogin is set', async () => {
@@ -146,8 +129,6 @@ describe('Signup Route Tests', () => {
     await request(app)
       .post('/delete')
       .send({ username: 'NewUser' })
-
-    await removeTestLog(app)
   })
 })
 
@@ -177,9 +158,6 @@ describe('Set Availabiltiy Tests', () => {
     await agent
       .post('/delete')
       .send({ username: 'NewUser' })
-
-    await removeTestLog(app)
-    await removeTestLog(app)
   })
 })
 
@@ -225,9 +203,6 @@ describe('booking a meeting', () => {
     await agent
       .post('/deleteMeeting')
       .send({ lecturer: 'l', date: '2023-05-23', time: '09:30' })
-
-    await removeTestLog(app)
-    await removeTestLog(app)
   })
 })
 
@@ -249,8 +224,6 @@ describe('Get all meetings test', () => {
 
     const response = await agent.get('/getMeetings')
     expect(response.body.length).toBeGreaterThan(2)
-
-    await removeTestLog(app)
   })
   test('GET /getMeetings - Check if meetings are accessible for lecturer', async () => {
     const agent = request.agent(app)
@@ -260,8 +233,6 @@ describe('Get all meetings test', () => {
 
     const response = await agent.get('/getMeetings')
     expect(response.body.length).toBeGreaterThan(1)
-
-    await removeTestLog(app)
   })
 })
 
@@ -305,11 +276,6 @@ describe('Login Route Tests', () => {
       .send({ username: 'l', password: ']' })
     const response2 = await agent.post('/logout')
     expect(response2.headers.location).toBe('/login')
-
-    await removeTestLog(app)
-    await removeTestLog(app)
-    await removeTestLog(app)
-    await removeTestLog(app)
   })
 })
 
@@ -334,8 +300,6 @@ describe('Tests the get Availability request', () => {
     expect(response.body.time[0]).toBe('09:30')
     expect(response.body.duration[0]).toBe(30)
     expect(response.body.groupSize[0]).toBe(5)
-
-    removeTestLog(app)
   })
 })
 
@@ -367,10 +331,6 @@ describe('Tests delete availability', () => {
 
     const response2 = await agent.get('/availability')
     expect(response2.body.day.length).toBe(1)
-
-    await removeTestLog(app)
-    await removeTestLog(app)
-    await removeTestLog(app)
   })
 })
 
@@ -391,16 +351,12 @@ describe('Test joining functionality', () => {
       .send({ username: 's', password: ']' })
 
     const response = await agent
-      .get('/joinMeeting/646f2677ba252a3e536f167d')
+      .get('/joinMeeting/6470d807d8b9f2ef74cbf894')
 
     expect(await response.text).toBe('Joined')
 
-    const response2 = await agent.get('/leaveMeeting/646f2677ba252a3e536f167d')
+    const response2 = await agent.get('/leaveMeeting/6470d807d8b9f2ef74cbf894')
     expect(await response2.text).toBe('Left')
-
-    await removeTestLog(app)
-    await removeTestLog(app)
-    await removeTestLog(app)
   })
 
   test('GET /getAllMeetings - Return all meetings', async () => {
@@ -412,8 +368,6 @@ describe('Test joining functionality', () => {
     const response = await agent
       .get('/getAllMeetings/l')
     expect(response.body.length).toBeGreaterThan(0)
-
-    await removeTestLog(app)
   })
 
   test('GET /getUsername - Return username of user', async () => {
@@ -424,8 +378,6 @@ describe('Test joining functionality', () => {
     const response = await agent
       .get('/getUsername')
     expect(response.text).toBe('s')
-
-    await removeTestLog(app)
   })
 
   describe('delete meeting', () => {
@@ -454,10 +406,6 @@ describe('Test joining functionality', () => {
         .get(`/deleteMeeting/${meetingId}`)
 
       expect(response2.text).toBe('deleted')
-
-      await removeTestLog(app)
-      await removeTestLog(app)
-      await removeTestLog(app)
     })
   })
 })
@@ -479,7 +427,7 @@ describe('Delete user', () => {
       .send({ name: 'Miguel', username: 'migs2.0', password: '12345678', email: 'miguelhunter0124@gmail.co', position: 'student' })
 
     await agent
-      .get('/joinMeeting/646f2677ba252a3e536f167d')
+      .get('/joinMeeting/6470d807d8b9f2ef74cbf894')
 
     await agent
       .post('/deleteUser')
@@ -487,9 +435,5 @@ describe('Delete user', () => {
     const response1 = await agent
       .get('/checkUsername/migs2.0')
     expect(response1.text).toBe('false')
-
-    await removeTestLog(app)
-    await removeTestLog(app)
-    await removeTestLog(app)
   })
 })

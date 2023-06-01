@@ -49,7 +49,10 @@ async function addLog(username, nature, role) {
     nature,
     role
   })
-  await log.save()
+
+  if (process.env.NODE_ENV !== 'test') {
+    await log.save()
+  }
 }
 
 dbAPI.post('/login', async function (req, res) {
