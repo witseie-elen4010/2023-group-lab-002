@@ -209,6 +209,9 @@ dbAPI.get('/deleteAvailability/:index', async function (req, res) {
 
 dbAPI.get('/joinMeeting/:id', async function (req, res) {
   const meeting = await Meeting.findOne({ _id: req.params.id })
+  if (!meeting) {
+    return res.send('Meeting not found')
+  }
   meeting.members.push(req.session.user.username)
   addLog(req.session.user.username, `Joined meeting with ${meeting.lecturer} on ${meeting.date}`, 'Student')
   await meeting.save()
