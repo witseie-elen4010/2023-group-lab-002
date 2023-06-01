@@ -4,6 +4,8 @@ document.querySelector('#logout_button').addEventListener('click', function (eve
   window.history.replaceState({}, '', '/login')
 })
 
+let availability = []
+
 fetch('/db/availability')
   .then(response => {
     if (response.ok) {
@@ -11,6 +13,7 @@ fetch('/db/availability')
     }
   })
   .then(data => {
+    availability = data
     const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
     const div = document.querySelector('#availability')
     const table = document.createElement('table')
@@ -102,3 +105,34 @@ deleteButton.addEventListener('click', async function () {
   document.body.appendChild(dialog)
   dialog.showModal()
 })
+
+const addAvailabilityButton = document.querySelector('#submitSchedule')
+const dayDropdown = document.querySelector('#daysDropdown')
+const timeDropdown = document.querySelector('#time')
+const durationInput = document.querySelector('#duration')
+
+function CheckAvailability () {
+  addAvailabilityButton.disabled = false
+  for (let i = 0; i < availability.time.length; i++) {
+    if (availability.day[i] === Number(dayDropdown.value)) {
+      const startTime = new Date()
+      startTime.setHours(availability.time[i].split(':')[0], availability.time[i].split(':')[1], 0, 0)
+      const endTime = new Date()
+      endTime.setHours(availability.time[i].split(':')[0], availability.time[i].split(':')[1], 0, 0)
+      endTime.setMinutes(endTime.getMinutes() + availability.duration[i])
+      const startTimeNew = new Date()
+      startTimeNew.setHours(timeDropdown.value.split(':')[0], timeDropdown.value.split(':')[1], 0, 0)
+      const endTimeNew = new Date()
+      endTimeNew.setHours(timeDropdown.value.split(':')[0], timeDropdown.value.split(':')[1], 0, 0)
+      endTimeNew.setMinutes(endTimeNew.getMinutes() + Number(durationInput.value))
+      if ((startTimeNew.getTime() >= startTime.getTime() && startTimeNew.getTime() < endTime.getTime()) | (endTimeNew.getTime() > startTime.getTime() && endTimeNew.getTime() <= endTime.getTime())) {
+        addAvailabilityButton.disabled = true
+        break
+      }
+    }
+  }
+}
+
+timeDropdown.addEventListener('change', CheckAvailability)
+dayDropdown.addEventListener('change', CheckAvailability)
+durationInput.addEventListener('change', CheckAvailability)
