@@ -66,13 +66,16 @@ dbAPI.post('/login', async function (req, res) {
     if (user.type === 'lecturer') {
       addLog(req.body.username, 'Logged in', 'Lecturer')
       res.redirect('/lecturerDashboard')
-    } else {
+    } else if (user.type === 'student') {
       addLog(req.body.username, 'Logged in', 'Student')
       res.redirect('/studentdashboard')
+    } else {
+      addLog(req.body.username, 'Logged in', 'Admin')
+      res.redirect('/logs')
     }
   } else {
     req.session.errorLogin = true
-    addLog(req.body.username, 'Failed to login', 'Unknown role')
+    await addLog(req.body.username, 'Failed to login', 'Unknown role')
     res.redirect('/login')
   }
 })

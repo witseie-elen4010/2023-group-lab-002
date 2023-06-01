@@ -15,6 +15,8 @@ const cell3 = tableHeader.insertCell()
 cell3.innerHTML = '<b>Username</b>'
 const cell4 = tableHeader.insertCell()
 cell4.innerHTML = '<b>Nature</b>'
+const cell5 = tableHeader.insertCell()
+cell5.innerHTML = '<b>Role</b>'
 table.appendChild(tableHeader)
 fetch('/db/getLogs')
   .then(response => response.json())
@@ -32,6 +34,8 @@ fetch('/db/getLogs')
       cell3.textContent = logs[i].username
       const cell4 = row.insertCell()
       cell4.textContent = logs[i].nature
+      const cell5 = row.insertCell()
+      cell5.textContent = logs[i].role
     }
   })
 
